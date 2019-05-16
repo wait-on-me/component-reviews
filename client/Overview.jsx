@@ -1,4 +1,5 @@
 import React from 'react';
+import RatingsSummary from './RatingsSummary.jsx';
 
 import styled from 'styled-components';
 const axios = require('axios');
@@ -7,14 +8,23 @@ class Overview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: () => Math.floor(Math.random() * 25),
+      numOfReviews: 0,
+      overall: 0,
+      ratingList: {},
 
     }
   }
 
   componentDidMount() {
-    axios.get('/restaurants')
+    axios.get(`/restaurants/${this.state.id()}`)
       .then((response) => {
-        console.log(response);
+        console.log(response.data);
+        this.setState({
+          numOfReviews: response.data.reviews.length,
+          overall: response.data.rating.Overall,
+          ratingList: response.data.rating,
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -26,7 +36,7 @@ class Overview extends React.Component {
       <div>
         <ReviewsSummary>
           <ReviewsSummaryContainer>
-            <ReviewsOverviewHeaderText>What 500 People Are Saying</ReviewsOverviewHeaderText>
+            <ReviewsOverviewHeaderText>What {this.state.numOfReviews} People Are Saying</ReviewsOverviewHeaderText>
             <OverallRatingsReviewsContainer>
               <OverallRatingsNumbersContainer>
                 <OverallRatingsText>Overall ratings and reviews</OverallRatingsText>
@@ -34,10 +44,10 @@ class Overview extends React.Component {
                 <StarsAndRatingContainer>
                   <StarsContainer>
                   </StarsContainer>
-                  <OverallNumberRating>4.5 based on recent ratings</OverallNumberRating>
+                  <OverallNumberRating>{this.state.overall} based on recent ratings</OverallNumberRating>
                 </StarsAndRatingContainer>
                 <CategoryRatingsContainer>
-
+                  <RatingsSummary ratings={this.state.ratingList}/>
                 </CategoryRatingsContainer>
                 <NoiseContainer>
                   <NoiseAndResultContainer>
