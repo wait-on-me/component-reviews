@@ -1,6 +1,7 @@
 import React from 'react';
 
 import styled from 'styled-components';
+const axios = require('axios');
 
 class Overview extends React.Component {
   constructor(props) {
@@ -9,6 +10,17 @@ class Overview extends React.Component {
 
     }
   }
+
+  componentDidMount() {
+    axios.get('/restaurants')
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   render() {
     return (
       <div>
