@@ -1,6 +1,7 @@
 import React from 'react';
 import RatingsSummary from './RatingsSummary.jsx';
 import BarGraph from './BarGraph.jsx'
+import Stars from './OverallStars.jsx'
 
 import styled from 'styled-components';
 const axios = require('axios');
@@ -15,7 +16,7 @@ class Overview extends React.Component {
       ratingList: {},
       reviews: [],
       barGraph: {},
-
+      noiseLevel: 'Nothing to Report',
     }
   }
 
@@ -44,6 +45,16 @@ class Overview extends React.Component {
         this.setState({
           barGraph: barRatings,
         });
+        const noise = { Quiet: 0, Moderate: 0, Energetic: 0 }
+        const noiseLevel = reviewsList.reduce((acc, review) => {
+          const key = review.noise_level;
+          noise[key] += 1;
+          return acc
+        }, noise)
+
+
+
+        console.log(noise)
       })
       .catch((error) => {
         console.log(error);
@@ -62,6 +73,7 @@ class Overview extends React.Component {
                 <OverallRatingsTextTwo>Reviews can only be made by diners who have eaten at this restaurant</OverallRatingsTextTwo>
                 <StarsAndRatingContainer>
                   <StarsContainer>
+                    <Stars rating={this.state.overall} />
                   </StarsContainer>
                   <OverallNumberRating>{this.state.overall} based on recent ratings</OverallNumberRating>
                 </StarsAndRatingContainer>
@@ -70,19 +82,19 @@ class Overview extends React.Component {
                 </CategoryRatingsContainer>
                 <NoiseContainer>
                   <NoiseAndResultContainer>
-                    <IconDiv>Icon</IconDiv>
+                    <IconDiv><i className="fas fa-signal"></i></IconDiv>
                     <NoiseResult>Noise - Moderate</NoiseResult>
                   </NoiseAndResultContainer>
                 </NoiseContainer>
                 <RecommendationsContainer>
                   <RecommendationResultContainer>
-                    <ThumbsIconDiv>Thumbs</ThumbsIconDiv>
+                    <ThumbsIconDiv><i className="far fa-thumbs-up"></i></ThumbsIconDiv>
                     <RecommendationResult>87% of people would recommend it to a friend</RecommendationResult>
                   </RecommendationResultContainer>
                 </RecommendationsContainer>
               </OverallRatingsNumbersContainer>
               <BarGraphContainer>
-                <BarGraph ratings={this.state.barGraph} reviews={this.state.reviews}/>
+                <BarGraph ratings={this.state.barGraph} reviews={this.state.reviews} />
               </BarGraphContainer>
             </OverallRatingsReviewsContainer>
           </ReviewsSummaryContainer>
@@ -146,8 +158,8 @@ const OverallRatingsTextTwo = styled.div`
 `;
 
 const StarsAndRatingContainer = styled.div`
-  padding-top: 0.5rem;
-  padding-bottom: 1rem;
+  // padding-top: 0.5rem;
+  // padding-bottom: 1rem;
   position: relative;
   display: flex;
   justify-content: flex-start;
@@ -161,6 +173,8 @@ const StarsAndRatingContainer = styled.div`
 
 const StarsContainer = styled.div`
   width: calc(16px * 5 + 0.25rem * 5);
+  padding-top: 0.5rem;
+  padding-bottom: 1rem;
 `;
 
 const OverallNumberRating = styled(StarsAndRatingContainer)`
@@ -184,6 +198,7 @@ const NoiseAndResultContainer = styled.div`
 
 const IconDiv = styled.div`
   display: inherit;
+  margin-right: 0.5rem;
 `;
 
 const NoiseResult = styled.div`
