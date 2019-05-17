@@ -1,5 +1,6 @@
 import React from 'react';
 import RatingsSummary from './RatingsSummary.jsx';
+import BarGraph from './BarGraph.jsx'
 
 import styled from 'styled-components';
 const axios = require('axios');
@@ -12,6 +13,8 @@ class Overview extends React.Component {
       numOfReviews: 0,
       overall: 0,
       ratingList: {},
+      reviews: [],
+      barGraph: {},
 
     }
   }
@@ -24,6 +27,22 @@ class Overview extends React.Component {
           numOfReviews: response.data.reviews.length,
           overall: response.data.rating.Overall,
           ratingList: response.data.rating,
+          reviews: response.data.reviews,
+        });
+
+        const obj = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 }
+        const reviewsList = response.data.reviews;
+
+        const barRatings = reviewsList.reduce((acc, review) => {
+          const key = review.individual_rating.Overall;
+          // console.log(key)
+          obj[key] += 1;
+          return acc;
+        }, obj)
+        // console.log(obj);
+        // console.log(barRatings)
+        this.setState({
+          barGraph: barRatings,
         });
       })
       .catch((error) => {
@@ -47,7 +66,7 @@ class Overview extends React.Component {
                   <OverallNumberRating>{this.state.overall} based on recent ratings</OverallNumberRating>
                 </StarsAndRatingContainer>
                 <CategoryRatingsContainer>
-                  <RatingsSummary ratings={this.state.ratingList}/>
+                  <RatingsSummary ratings={this.state.ratingList} />
                 </CategoryRatingsContainer>
                 <NoiseContainer>
                   <NoiseAndResultContainer>
@@ -62,6 +81,9 @@ class Overview extends React.Component {
                   </RecommendationResultContainer>
                 </RecommendationsContainer>
               </OverallRatingsNumbersContainer>
+              <BarGraphContainer>
+                <BarGraph ratings={this.state.barGraph} reviews={this.state.reviews}/>
+              </BarGraphContainer>
             </OverallRatingsReviewsContainer>
           </ReviewsSummaryContainer>
         </ReviewsSummary>
@@ -76,10 +98,12 @@ export default Overview;
 const ReviewsSummary = styled.div`
   display: flex;
   flex-direction: column;
+  width: 640px;
 `;
 
 const ReviewsSummaryContainer = styled.div`
   font-family: BrandonText,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
+  -webkit-font-smoothing: antialiased;
   padding-bottom: 2rem;
   margin-bottom: 2rem;
   border-bottom: solid 1px #d8d9db;
@@ -104,6 +128,7 @@ const OverallRatingsReviewsContainer = styled.div`
 const OverallRatingsNumbersContainer = styled.div`
   display: flex;
   flex-direction: column;
+  display: block;
 
 `;
 
@@ -189,4 +214,9 @@ const RecommendationResult = styled.div`
   line-height: 1.43;
   font-size: 0.875rem;
   color: #6f737b;
+`;
+
+const BarGraphContainer = styled.div`
+   padding: 2rem 0 0;
+   display: block;
 `;
