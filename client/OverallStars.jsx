@@ -33,7 +33,7 @@ const Stars = (props) => {
     } else if (star === 'empty') {
       return (<Empty><i className="fas fa-star"></i></Empty>)
     } else {
-      return (<Percentage><i class="fas fa-star-half-alt"></i></Percentage>)
+      return (<Percentage><i className="fas fa-star-half-alt"></i></Percentage>)
 
     }
   });
