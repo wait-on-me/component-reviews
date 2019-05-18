@@ -2,6 +2,7 @@ import React from 'react';
 import RatingsSummary from './RatingsSummary.jsx';
 import BarGraph from './BarGraph.jsx'
 import Stars from './OverallStars.jsx'
+import ReviewFeed from './ReviewFeed.jsx'
 
 import styled from 'styled-components';
 const axios = require('axios');
@@ -128,6 +129,7 @@ class Overview extends React.Component {
             </OverallRatingsReviewsContainer>
           </ReviewsSummaryContainer>
         </ReviewsSummary>
+        <ReviewFeed reviewList={this.state.reviews} />
       </div>
     );
   }
