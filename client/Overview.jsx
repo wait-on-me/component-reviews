@@ -17,6 +17,7 @@ class Overview extends React.Component {
       reviews: [],
       barGraph: {},
       noiseLevel: 'Nothing to Report',
+      recommend: 0,
     }
   }
 
@@ -46,15 +47,43 @@ class Overview extends React.Component {
           barGraph: barRatings,
         });
         const noise = { Quiet: 0, Moderate: 0, Energetic: 0 }
+
         const noiseLevel = reviewsList.reduce((acc, review) => {
           const key = review.noise_level;
           noise[key] += 1;
           return acc
         }, noise)
 
+        const levels = Object.values(noise).filter((val, i) => {
+          let max = 0;
+          let index = 0;
+          if (val > max) {
+            max = val;
+            index = i;
+          }
+          return index
+        })
+
+        console.log(levels)
+
+        // console.log('check', levels)
+        // console.log(noise)
+        console.log(findNoise)
+
+        const recommendation = { true: 0, false: 0 }
+
+        const recommendCount = reviewsList.reduce((acc, review) => {
+          const val = review.would_recommend
+          recommendation[val] += 1;
+          return acc;
+        }, recommendation);
 
 
-        console.log(noise)
+        const recommendPercent = (Math.round((recommendation[true] / reviewsList.length) * 100));
+
+        this.setState({
+          recommend: recommendPercent,
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -89,7 +118,7 @@ class Overview extends React.Component {
                 <RecommendationsContainer>
                   <RecommendationResultContainer>
                     <ThumbsIconDiv><i className="far fa-thumbs-up"></i></ThumbsIconDiv>
-                    <RecommendationResult>87% of people would recommend it to a friend</RecommendationResult>
+                    <RecommendationResult>{this.state.recommend}% of people would recommend it to a friend</RecommendationResult>
                   </RecommendationResultContainer>
                 </RecommendationsContainer>
               </OverallRatingsNumbersContainer>
