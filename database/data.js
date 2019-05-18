@@ -49,16 +49,18 @@ const newRestaurant = (i) => {
   const reviews = newReview();
   // console.log(reviews)
   const rating = {}
-  rating.Overall = Number((reviews.reduce((acc, value) => acc += value.individual_rating.Overall, 0) / reviews.length).toFixed(1));
 
-  rating.Food = Number((reviews.reduce((acc, value) => acc += value.individual_rating.Food, 0) / reviews.length).toFixed(1));
+  rating.Overall = parseFloat((reviews.reduce((acc, value) => acc += value.individual_rating.Overall, 0) / reviews.length).toFixed(1));
 
-  rating.Service = Number((reviews.reduce((acc, value) => acc += value.individual_rating.Service, 0) / reviews.length).toFixed(1));
+  rating.Food = parseFloat((reviews.reduce((acc, value) => acc += value.individual_rating.Food, 0) / reviews.length).toFixed(1));
 
-  rating.Ambience = Number((reviews.reduce((acc, value) => acc += value.individual_rating.Ambience, 0) / reviews.length).toFixed(1));
+  rating.Service = parseFloat((reviews.reduce((acc, value) => acc += value.individual_rating.Service, 0) / reviews.length).toFixed(1));
 
-  rating.Value = Number((reviews.reduce((acc, value) => acc += value.individual_rating.Value, 0) / reviews.length).toFixed(1));
+  rating.Ambience = parseFloat((reviews.reduce((acc, value) => acc += value.individual_rating.Ambience, 0) / reviews.length).toFixed(1));
 
+  rating.Value = parseFloat((reviews.reduce((acc, value) => acc += value.individual_rating.Value, 0) / reviews.length).toFixed(1));
+
+ 
 
   // console.log(rating);
   return {
@@ -88,7 +90,9 @@ const seedDB = (data) => {
       console.log('Database cleared');
       Restaurant.insertMany(data, (err) => {
         if (err) {
+          console.log(err);
           console.log('seeding failed')
+
         } else {
           console.log('successfully saved data')
         }
@@ -98,6 +102,6 @@ const seedDB = (data) => {
 }
 
 
-const data = generateData(101);
+const data = generateData(25);
 // console.log(data);
 seedDB(data);

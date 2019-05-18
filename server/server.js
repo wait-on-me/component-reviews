@@ -32,3 +32,4 @@ app.get('/restaurants/:restaurantId', (req, res) => {
     }
   });
 });
+
