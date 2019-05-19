@@ -32,7 +32,7 @@ const IndividualStars = (props) => {
 
   return (
     <StarsDiv>
-      <Stars>{colorStars}</Stars>
+      <StarDisplay>{colorStars}</StarDisplay>
     </StarsDiv>
   )
 };
@@ -61,7 +61,7 @@ margin-right: 0.25rem;
 color: #d8d9db
 `;
 
-const Stars = styled.div`
+const StarDisplay = styled.div`
   display: flex;
   flex-direction: row;
   width: 16px;

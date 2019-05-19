@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import IndividualStars from './IndividualStars.jsx';
+import IndividualRating from './IndividualRatings.jsx';
 
 const IndividualReview = (props) => {
 
@@ -15,6 +16,8 @@ const IndividualReview = (props) => {
   const city = props.review.location.split(',')[0];
   const reviewsWritten = props.review.reviews_written;
   const date = props.review.date.split('').slice(4, 15).join('');
+  const reviewEntry = props.review.review_entry
+
 
   const iconDisplay = () => {
     if (privacy === true) {
@@ -58,10 +61,19 @@ const IndividualReview = (props) => {
         <ReviewContextContainer>
           <IndividualRatingDiv>
             <StarsDateContainer>
-              <IndividualStars review={props.review}/>
+              <IndividualStars review={props.review} />
               <Date>Dined on {date}</Date>
             </StarsDateContainer>
+            <IndividualStarsContainer>
+              <IndividualRating review={props.review} />
+            </IndividualStarsContainer>
           </IndividualRatingDiv>
+          <UserReview>
+            <ReviewParagraph>{reviewEntry}</ReviewParagraph>
+          </UserReview>
+          <ReadMoreAndExtra>
+            <ReadMoreDiv></ReadMoreDiv>
+          </ReadMoreAndExtra>
         </ReviewContextContainer>
       </ReviewContainer>
 
@@ -104,17 +116,18 @@ const UserIconDiv = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: 0.5rem;
-
+  
 `;
 
 const UserIcon = styled.div`
-  background: #d86441;
+  background: colorArray[3];
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: #d86441;
 `;
 
 const UserInitial = styled.div`
@@ -208,3 +221,39 @@ const Date = styled(StarsDateContainer)`
   line-height: 1.43;
   font-weight: 500;
 `;
+
+const IndividualStarsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 0.5rem;
+`;
+
+const UserReview = styled.div`
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 3;
+  max-height: calc(3rem * 1.5);
+`;
+
+const ReviewParagraph = styled.p`
+  margin-bottom: 0;
+  margin-top: 0;
+  line-height: 1.5;
+  font-size: 1rem;
+  font-weight: normal;
+`;
+
+const ReadMoreAndExtra = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`;
+
+const ReadMoreDiv = styled.div`
+`;
+
