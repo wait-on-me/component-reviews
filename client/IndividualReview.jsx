@@ -18,6 +18,11 @@ const IndividualReview = (props) => {
   const date = props.review.date.split('').slice(4, 15).join('');
   const reviewEntry = props.review.review_entry
 
+  const colorArray = ['DeepPink', 'BlueViolet', 'DeepSkyBlue', 'Chocolate']
+
+  const getRandomColor = (max) => {
+    return Math.floor(Math.random() * Math.floor(max));
+  }
 
   const iconDisplay = () => {
     if (privacy === true) {
@@ -42,7 +47,7 @@ const IndividualReview = (props) => {
       <ReviewContainer>
         <UserInfoContainer>
           <UserIconDiv>
-            <UserIcon>
+            <UserIcon style={{background: colorArray[getRandomColor(4)]}}>
               <UserInitial>{iconDisplay()}</UserInitial>
             </UserIcon>
           </UserIconDiv>
