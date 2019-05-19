@@ -17,7 +17,7 @@ class Overview extends React.Component {
       ratingList: {},
       reviews: [],
       barGraph: {},
-      noiseLevel: 'Nothing to Report',
+      noiseLevel: '',
       recommend: 0,
     }
   }
@@ -55,21 +55,22 @@ class Overview extends React.Component {
           return acc
         }, noise)
 
-        const levels = Object.values(noise).filter((val, i) => {
-          let max = 0;
-          let index = 0;
-          if (val > max) {
-            max = val;
-            index = i;
+        const level = (obj) => {
+          let votedMost = 0
+          let highest;
+          for (let key in obj) {
+            if (obj[key] > votedMost) {
+              votedMost = obj[key];
+              highest = key
+            }
           }
-          return index
-        })
+          return highest;
+        }
 
-        console.log(levels)
-
-        // console.log('check', levels)
+        const votedNoise = level(noise);
+        console.log('test', votedNoise)
         // console.log(noise)
-        console.log(findNoise)
+        // console.log('is working', level(noise))
 
         const recommendation = { true: 0, false: 0 }
 
@@ -83,7 +84,9 @@ class Overview extends React.Component {
         const recommendPercent = (Math.round((recommendation[true] / reviewsList.length) * 100));
 
         this.setState({
+          noiseLevel: votedNoise,
           recommend: recommendPercent,
+
         });
       })
       .catch((error) => {
@@ -113,7 +116,7 @@ class Overview extends React.Component {
                 <NoiseContainer>
                   <NoiseAndResultContainer>
                     <IconDiv><i className="fas fa-signal"></i></IconDiv>
-                    <NoiseResult>Noise - Moderate</NoiseResult>
+                    <NoiseResult>Noise - {this.state.noiseLevel}</NoiseResult>
                   </NoiseAndResultContainer>
                 </NoiseContainer>
                 <RecommendationsContainer>
