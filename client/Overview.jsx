@@ -19,8 +19,38 @@ class Overview extends React.Component {
       barGraph: {},
       noiseLevel: '',
       recommend: 0,
+      idForBar: null,
+      filteredArray: [],
     }
+    this.handleFilterClick = this.handleFilterClick.bind(this);
   }
+
+  handleFilterClick(id) {
+    // console.log('testttt', id)
+    const clickedId = Number(id);
+    const allReviews = this.state.reviews
+
+    // console.log(typeof clickedId);
+    // console.log(typeof restReviews[1].individual_rating.Overall)
+    this.setState({
+      idForBar: clickedId,
+    });
+
+    let filteredRatings = allReviews.filter(review => {
+      return review.individual_rating.Overall === clickedId
+    })
+
+    this.setState({
+      filteredArray: filteredRatings,
+    });
+
+
+
+    console.log('test', filteredRatings)
+
+  }
+
+
 
   componentDidMount() {
     axios.get(`/restaurants/${this.state.id()}`)
@@ -95,6 +125,16 @@ class Overview extends React.Component {
   }
 
   render() {
+    let selectedBar = this.state.idForBar;
+    let filterDisplay = this.state.filteredArray;
+    let all = this.state.reviews
+    let display;
+
+    if (selectedBar === null) {
+      display = all
+    } else {
+      display = filterDisplay
+    }
     return (
       <div>
         <ReviewsSummary>
@@ -127,12 +167,12 @@ class Overview extends React.Component {
                 </RecommendationsContainer>
               </OverallRatingsNumbersContainer>
               <BarGraphContainer>
-                <BarGraph ratings={this.state.barGraph} reviews={this.state.reviews} />
+                <BarGraph ratings={this.state.barGraph} reviews={this.state.numOfReviews} onClick={this.handleFilterClick} />
               </BarGraphContainer>
             </OverallRatingsReviewsContainer>
           </ReviewsSummaryContainer>
         </ReviewsSummary>
-        <ReviewFeed reviewList={this.state.reviews} />
+        <ReviewFeed reviewList={display} />
       </div>
     );
   }
