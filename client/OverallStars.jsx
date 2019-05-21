@@ -33,7 +33,14 @@ const Stars = (props) => {
     } else if (star === 'empty') {
       return (<Empty><i className="fas fa-star"></i></Empty>)
     } else {
-      return (<Percentage><i className="fas fa-star-half-alt"></i></Percentage>)
+      return (
+      <div>
+
+        {/* <EmptyHalf><i className="fas fa-star"></i></EmptyHalf> */}
+        <Percentage><i className="fas fa-star-half-alt"></i></Percentage>
+      </div>
+
+      )
 
     }
   });
@@ -82,10 +89,21 @@ const Empty = styled.div`
   margin-right: 0.25rem;
 `;
 
-const Percentage = styled.div`
+// const EmptyHalf = styled.div`
+// color: #d8d9db
+// display: inline-block;
+// width: 16px;
+// height: 16px;
+// margin-right: 0.25rem;
+// `;
+
+
+const Percentage = styled(Empty)`
   color: #da3743;
   display: inline-block;
+  // position: relative;
   width: 16px;
   height: 16px;
   margin-right: 0.25rem;
+  // top: -22px;
 `;
