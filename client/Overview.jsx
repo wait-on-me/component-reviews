@@ -21,8 +21,11 @@ class Overview extends React.Component {
       recommend: 0,
       idForBar: null,
       filteredArray: [],
+      toggleSortmenu: false,
+
     }
     this.handleFilterClick = this.handleFilterClick.bind(this);
+    this.handleSortClick = this.handleSortClick.bind(this);
   }
 
   handleFilterClick(id) {
@@ -124,6 +127,14 @@ class Overview extends React.Component {
       });
   }
 
+
+  handleSortClick() {
+    event.preventDefault();
+    this.setState(state => ({
+      toggleSortmenu: !state.toggleSortmenu
+    }));
+  }
+
   render() {
     let selectedBar = this.state.idForBar;
     let filterDisplay = this.state.filteredArray;
@@ -172,7 +183,7 @@ class Overview extends React.Component {
             </OverallRatingsReviewsContainer>
           </ReviewsSummaryContainer>
         </ReviewsSummary>
-        <ReviewFeed reviewList={display} />
+        <ReviewFeed reviewList={display} onClick={this.handleSortClick} sortMenuDisplay={this.state.toggleSortmenu}/>
       </div>
     );
   }
