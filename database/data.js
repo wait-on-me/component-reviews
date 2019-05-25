@@ -8,12 +8,16 @@ const getRandomInt = (max) => {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
+const getRandom = (min, max) => {
+  return Math.random() * (max - min) + min;
+}
+
 const boolean = [true, false];
 const noiseLevel = ['Quiet', 'Moderate', 'Energetic'];
 
 const newReview = () => {
   const reviewsArray = [];
-  for (var i = 1; i < getRandomInt(50); i++) {
+  for (var i = 1; i < getRandom(5, 75); i++) {
     const reviews = {
       first_name: faker.name.firstName(),
       last_name: faker.name.lastName(),
@@ -23,7 +27,7 @@ const newReview = () => {
       reviews_written: getRandomInt(15),
       date: faker.date.between('2018-05-08', '2019-05-08'),
       location: `${faker.address.city()}, ${faker.address.state()}`,
-      review_entry: faker.lorem.paragraphs(getRandomInt(8)),
+      review_entry: faker.lorem.sentences(getRandom(1, 7)),
       noise_level: noiseLevel[getRandomInt(3)],
       would_recommend: boolean[getRandomInt(2)],
       helpful: boolean[getRandomInt(2)],
@@ -60,7 +64,7 @@ const newRestaurant = (i) => {
 
   rating.Value = parseFloat((reviews.reduce((acc, value) => acc += value.individual_rating.Value, 0) / reviews.length).toFixed(1));
 
- 
+
 
   // console.log(rating);
   return {
@@ -102,6 +106,6 @@ const seedDB = (data) => {
 }
 
 
-const data = generateData(25);
+const data = generateData(100);
 // console.log(data);
 seedDB(data);
