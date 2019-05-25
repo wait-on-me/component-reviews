@@ -12,9 +12,8 @@ const SortingTools = (props) => {
         <DropDownContainer onClick={props.onClick}>
           <Dropdownspan>Newest</Dropdownspan>
           <IconArrow><i className="fas fa-chevron-down"></i></IconArrow>
-        </DropDownContainer>
 
-        {props.sortDisplay ? (
+        {props.sortDisplay === true ? (
           // console.log(props.sortDisplay)
           <DropDownOptionsContainer>
             <NewestOption>
@@ -25,9 +24,15 @@ const SortingTools = (props) => {
             </NewestOption>
             <HighestRatingOption>
               <HighestInput name="reviewSort" type="radio"></HighestInput>
+              <HighestLabel>
+                <HighestSpan>Highest</HighestSpan>
+              </HighestLabel>
             </HighestRatingOption>
             <LowestRatingOption>
               <LowestInput name="reviewSort" type="radio"></LowestInput>
+              <LowestLabel>
+                <LowestSpan>Lowest</LowestSpan>
+              </LowestLabel>
             </LowestRatingOption>
           </DropDownOptionsContainer>
         ) :
@@ -35,6 +40,7 @@ const SortingTools = (props) => {
             null
           )
         }
+         </DropDownContainer>
 
 
       </SortContainer>
@@ -59,18 +65,6 @@ const SortContainer = styled.div`
   margin: 0.5rem 0;
   padding: 0;
 `;
-
-// const DropDown = styled.div`
-//   display: flex;
-//   align-items: center;
-//   justify-content: space-between;
-//   padding: 6px 0.25rem;
-//   // font-size: 0.875rem;
-//   // border-radius: 2px;
-//   // border: 1px solid #d8d9db;
-//   // cursor: pointer;
-//   // box-sizing: border-box;
-// `;
 
 const DropDownContainer = styled.div`
   display: flex;
@@ -152,6 +146,20 @@ const HighestRatingOption = styled.div`
   padding: 0.5rem 0.25rem;
 `;
 
+const HighestLabel = styled.label`
+  display: flex;
+  align-items: center;
+  font-size: 0.875rem;
+`;
+
+const HighestSpan = styled.span`
+  margin: 0 0 0 0.25rem;
+  font-weight: 500;
+  line-height: 1.43;
+  font-size: 0.875rem;
+  color: #6f737b;
+`;
+
 const HighestInput = styled.input`
   display: none;
   box-sizing: border-box;
@@ -171,6 +179,20 @@ const LowestInput = styled.input`
   line-height: normal;
   color: inherit;
   font: inherit;
+`;
+
+const LowestLabel = styled.label`
+  display: flex;
+  align-items: center;
+  font-size: 0.875rem;
+`;
+
+const LowestSpan = styled.span`
+  margin: 0 0 0 0.25rem;
+  font-weight: 500;
+  line-height: 1.43;
+  font-size: 0.875rem;
+  color: #6f737b;
 `;
 
 const FilterText = styled(SortText)`

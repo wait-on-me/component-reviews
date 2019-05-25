@@ -47,7 +47,7 @@ const IndividualReview = (props) => {
       <ReviewContainer>
         <UserInfoContainer>
           <UserIconDiv>
-            <UserIcon style={{background: colorArray[getRandomColor(4)]}}>
+            <UserIcon style={{ background: colorArray[getRandomColor(4)] }}>
               <UserInitial>{iconDisplay()}</UserInitial>
             </UserIcon>
           </UserIconDiv>
@@ -77,7 +77,19 @@ const IndividualReview = (props) => {
             <ReviewParagraph>{reviewEntry}</ReviewParagraph>
           </UserReview>
           <ReadMoreAndExtra>
-            <ReadMoreDiv></ReadMoreDiv>
+            <ReadMoreDiv>
+              <ReadTag href="#">+ Read More</ReadTag>
+            </ReadMoreDiv>
+            <ReportAndHelpful>
+              <Report>
+                <FlagIcon><i className="far fa-flag"></i></FlagIcon>
+                <ReportText>Report</ReportText>
+              </Report>
+              <Helpful>
+                <HelpfulIcon><i className="far fa-caret-square-up"></i></HelpfulIcon>
+                <HelpfulText>Helpful</HelpfulText>
+              </Helpful>
+            </ReportAndHelpful>
           </ReadMoreAndExtra>
         </ReviewContextContainer>
       </ReviewContainer>
@@ -260,5 +272,55 @@ const ReadMoreAndExtra = styled.div`
 `;
 
 const ReadMoreDiv = styled.div`
+  display: block;
 `;
 
+const ReadTag = styled.a`
+  color: #da3743;
+  tex-decoration: none;
+  font-weight: normal;
+  font-size: inherit;
+  height: 24px;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  background-color: transparent;
+  cursor: pointer;
+`;
+
+const ReportAndHelpful = styled.div`
+  display: flex;
+  position: relative;
+  align-self: flex-start;
+`;
+
+const Report = styled.div`
+  display: flex;
+  align-items: center;
+  pointer: cursor;
+  margin-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+`;
+
+const FlagIcon = styled.div`
+  height: 1rem;
+  width: 1rem;
+`;
+
+const ReportText = styled.div`
+  margin: 0 0 0 0.25rem;
+  font-weight: 500;
+  line-height: 1.43;
+  font-size: 0.875rem;
+  color: #6f737b;
+  pointer: cursor;
+`;
+
+const Helpful = styled(Report)`
+`;
+
+const HelpfulIcon = styled(FlagIcon)`
+`;
+
+const HelpfulText = styled(ReportText)`
+`;

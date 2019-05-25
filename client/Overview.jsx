@@ -21,7 +21,7 @@ class Overview extends React.Component {
       recommend: 0,
       idForBar: null,
       filteredArray: [],
-      toggleSortmenu: false,
+      toggleSortmenu: true,
 
     }
     this.handleFilterClick = this.handleFilterClick.bind(this);
