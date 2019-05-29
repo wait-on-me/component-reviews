@@ -4,100 +4,119 @@ import styled from 'styled-components';
 import IndividualStars from './IndividualStars.jsx';
 import IndividualRating from './IndividualRatings.jsx';
 
-const IndividualReview = (props) => {
+class IndividualReview extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      expand: false,
+    };
 
-
-  console.log(props.review)
-  const firstInit = props.review.first_name.charAt(0);
-  const lastInit = props.review.last_name.charAt(0);
-  const privacy = props.review.privacy
-  const name = props.review.first_name + props.review.last_name.charAt(0);
-  const username = props.review.username
-  const city = props.review.location.split(',')[0];
-  const reviewsWritten = props.review.reviews_written;
-  const date = props.review.date.split('').slice(4, 15).join('');
-  const reviewEntry = props.review.review_entry
-
-  const colorArray = ['DeepPink', 'BlueViolet', 'DeepSkyBlue', 'Chocolate']
-
-  const getRandomColor = (max) => {
-    return Math.floor(Math.random() * Math.floor(max));
+    this.showMore = this.showMore.bind(this);
   }
 
-  const iconDisplay = () => {
-    if (privacy === true) {
-      return 'OT';
-    } else {
-      return firstInit + lastInit;
+  showMore() {
+    event.preventDefault();
+    this.setState({ expanded: !this.state.expanded })
+  }
+
+  // console.log(props.review)
+
+  render() {
+    const firstInit = this.props.review.first_name.charAt(0);
+    const lastInit = this.props.review.last_name.charAt(0);
+    const privacy = this.props.review.privacy
+    const name = this.props.review.first_name + this.props.review.last_name.charAt(0);
+    const username = this.props.review.username
+    const city = this.props.review.location.split(',')[0];
+    const reviewsWritten = this.props.review.reviews_written;
+    const date = this.props.review.date.split('').slice(4, 15).join('');
+    const reviewEntry = this.props.review.review_entry
+
+    const colorArray = ['DeepPink', 'BlueViolet', 'DeepSkyBlue', 'Chocolate']
+
+    const getRandomColor = (max) => {
+      return Math.floor(Math.random() * Math.floor(max));
     }
-  }
 
-  const displayName = () => {
-    if (privacy === true) {
-      return 'OpenTable' + ' ' + 'Diner';
+    const iconDisplay = () => {
+      if (privacy === true) {
+        return 'OT';
+      } else {
+        return firstInit + lastInit;
+      }
     }
-    return name;
+
+    const displayName = () => {
+      if (privacy === true) {
+        return 'OpenTable' + ' ' + 'Diner';
+      }
+      return name;
+    }
+
+    const { expanded } = this.state;
+    // const showMoreText = expanded ? '+ Read More' : 'Read Less';
+
+    return (
+      <Review>
+
+        <ReviewContainer>
+          <UserInfoContainer>
+            <UserIconDiv>
+              <UserIcon style={{ background: colorArray[getRandomColor(4)] }}>
+                <UserInitial>{iconDisplay()}</UserInitial>
+              </UserIcon>
+            </UserIconDiv>
+            <UserInfo>
+              <NameSpan>
+
+                <Name>{displayName()}</Name>
+              </NameSpan>
+            </UserInfo>
+            <City>{city}</City>
+            <UserReviewsWrittenDiv>
+              <ReviewIcon><i className="far fa-comment-alt"></i></ReviewIcon>
+              <ReviewNumber>{reviewsWritten} reviews</ReviewNumber>
+            </UserReviewsWrittenDiv>
+          </UserInfoContainer>
+          <ReviewContextContainer>
+            <IndividualRatingDiv>
+              <StarsDateContainer>
+                <IndividualStars review={this.props.review} />
+                <Date>Dined on {date}</Date>
+              </StarsDateContainer>
+              <IndividualStarsContainer>
+                <IndividualRating review={this.props.review} />
+              </IndividualStarsContainer>
+            </IndividualRatingDiv>
+            <UserReview>
+              <ReviewParagraph>{reviewEntry}</ReviewParagraph>
+            </UserReview>
+            <ReadMoreAndExtra>
+              <ReadMoreDiv >
+                <ReadTag href="#" onClick={this.showMore}>
+                  {expanded ? 'Read Less' : '+ Read More'}
+                </ReadTag>
+              </ReadMoreDiv>
+              <ReportAndHelpful>
+                <Report>
+                  <FlagIcon><i className="far fa-flag"></i></FlagIcon>
+                  <ReportText>Report</ReportText>
+                </Report>
+                <Helpful>
+                  <HelpfulIcon><i className="far fa-caret-square-up"></i></HelpfulIcon>
+                  <HelpfulText>Helpful</HelpfulText>
+                </Helpful>
+              </ReportAndHelpful>
+            </ReadMoreAndExtra>
+          </ReviewContextContainer>
+        </ReviewContainer>
+
+
+      </Review >
+
+    );
   }
 
-
-
-  return (
-    <Review>
-
-      <ReviewContainer>
-        <UserInfoContainer>
-          <UserIconDiv>
-            <UserIcon style={{ background: colorArray[getRandomColor(4)] }}>
-              <UserInitial>{iconDisplay()}</UserInitial>
-            </UserIcon>
-          </UserIconDiv>
-          <UserInfo>
-            <NameSpan>
-
-              <Name>{displayName()}</Name>
-            </NameSpan>
-          </UserInfo>
-          <City>{city}</City>
-          <UserReviewsWrittenDiv>
-            <ReviewIcon><i className="far fa-comment-alt"></i></ReviewIcon>
-            <ReviewNumber>{reviewsWritten} reviews</ReviewNumber>
-          </UserReviewsWrittenDiv>
-        </UserInfoContainer>
-        <ReviewContextContainer>
-          <IndividualRatingDiv>
-            <StarsDateContainer>
-              <IndividualStars review={props.review} />
-              <Date>Dined on {date}</Date>
-            </StarsDateContainer>
-            <IndividualStarsContainer>
-              <IndividualRating review={props.review} />
-            </IndividualStarsContainer>
-          </IndividualRatingDiv>
-          <UserReview>
-            <ReviewParagraph>{reviewEntry}</ReviewParagraph>
-          </UserReview>
-          <ReadMoreAndExtra>
-            <ReadMoreDiv>
-              <ReadTag href="#">+ Read More</ReadTag>
-            </ReadMoreDiv>
-            <ReportAndHelpful>
-              <Report>
-                <FlagIcon><i className="far fa-flag"></i></FlagIcon>
-                <ReportText>Report</ReportText>
-              </Report>
-              <Helpful>
-                <HelpfulIcon><i className="far fa-caret-square-up"></i></HelpfulIcon>
-                <HelpfulText>Helpful</HelpfulText>
-              </Helpful>
-            </ReportAndHelpful>
-          </ReadMoreAndExtra>
-        </ReviewContextContainer>
-      </ReviewContainer>
-
-
-    </Review>
-
-  )
 };
 
 export default IndividualReview;
@@ -250,10 +269,15 @@ const UserReview = styled.div`
   margin-bottom: 0.5rem;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
   -webkit-line-clamp: 3;
   max-height: calc(3rem * 1.5);
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+ 
+  
+ 
 `;
 
 const ReviewParagraph = styled.p`
@@ -262,6 +286,7 @@ const ReviewParagraph = styled.p`
   line-height: 1.5;
   font-size: 1rem;
   font-weight: normal;
+  
 `;
 
 const ReadMoreAndExtra = styled.div`
@@ -273,6 +298,11 @@ const ReadMoreAndExtra = styled.div`
 
 const ReadMoreDiv = styled.div`
   display: block;
+  &:after {
+    overflow: visible;
+    height: auto;
+  }
+ 
 `;
 
 const ReadTag = styled.a`
@@ -285,6 +315,9 @@ const ReadTag = styled.a`
   padding-bottom: 0.25rem;
   background-color: transparent;
   cursor: pointer;
+  
+ 
+ 
 `;
 
 const ReportAndHelpful = styled.div`
