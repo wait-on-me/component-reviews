@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import IndividualStars from './IndividualStars.jsx';
 import IndividualRating from './IndividualRatings.jsx';
@@ -16,7 +16,7 @@ class IndividualReview extends React.Component {
 
   showMore() {
     event.preventDefault();
-    this.setState({ expanded: !this.state.expanded })
+    this.setState({ expand: !this.state.expand })
   }
 
   // console.log(props.review)
@@ -53,8 +53,27 @@ class IndividualReview extends React.Component {
       return name;
     }
 
-    const { expanded } = this.state;
-    // const showMoreText = expanded ? '+ Read More' : 'Read Less';
+    const { expand } = this.state;
+    // const showMoreText = expand ? '+ Read More' : 'Read Less';
+    let readMoreDiv;
+
+    if (expand === false) {
+      readMoreDiv = (<UserReview><ReviewParagraph>{reviewEntry}</ReviewParagraph></UserReview>)
+    } else {
+      readMoreDiv = (<UserReviewExpanded><ReviewParagraph>{reviewEntry}</ReviewParagraph></UserReviewExpanded>)
+    }
+
+    let readTag;
+    let reviewArr = reviewEntry.split('');
+    console.log(reviewArr)
+
+    if (reviewArr.length > 193) {
+      readTag = (<ReadTag href="#" onClick={this.showMore}>
+        {expand ? '- Read Less' : '+ Read More'}
+      </ReadTag>)
+    } else {
+      readTag = '';
+    }
 
     return (
       <Review>
@@ -88,14 +107,13 @@ class IndividualReview extends React.Component {
                 <IndividualRating review={this.props.review} />
               </IndividualStarsContainer>
             </IndividualRatingDiv>
-            <UserReview>
-              <ReviewParagraph>{reviewEntry}</ReviewParagraph>
-            </UserReview>
+            {readMoreDiv}
             <ReadMoreAndExtra>
               <ReadMoreDiv >
-                <ReadTag href="#" onClick={this.showMore}>
-                  {expanded ? 'Read Less' : '+ Read More'}
-                </ReadTag>
+                {readTag}
+                {/* <ReadTag href="#" onClick={this.showMore}>
+                  {expand ? '- Read Less' : '+ Read More'}
+                </ReadTag> */}
               </ReadMoreDiv>
               <ReportAndHelpful>
                 <Report>
@@ -271,14 +289,30 @@ const UserReview = styled.div`
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
   max-height: calc(3rem * 1.5);
-
-    overflow: hidden;
-    text-overflow: ellipsis;
-
- 
-  
- 
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
+
+const UserReviewExpanded = styled.div`
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  height: auto;
+  overflow: visible;
+  
+`;
+
+// const UserReview = css`
+//   margin-top: 1rem;
+//   margin-bottom: 0.5rem;
+//   display: -webkit-box;
+//   -webkit-box-orient: vertical;
+//   -webkit-line-clamp: 3;
+
+//   overflow: ${props => (props.expand ? 'hidden' : 'visible')};
+//   text-overflow: ${props => (props.expand ? 'ellipsis' : 'none')};
+//   height: auto;
+// `;
 
 const ReviewParagraph = styled.p`
   margin-bottom: 0;
@@ -294,14 +328,12 @@ const ReadMoreAndExtra = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  // margin-top: 1rem;
 `;
 
 const ReadMoreDiv = styled.div`
   display: block;
-  &:after {
-    overflow: visible;
-    height: auto;
-  }
+
  
 `;
 
@@ -315,9 +347,7 @@ const ReadTag = styled.a`
   padding-bottom: 0.25rem;
   background-color: transparent;
   cursor: pointer;
-  
- 
- 
+
 `;
 
 const ReportAndHelpful = styled.div`
