@@ -29,6 +29,7 @@ class IndividualReview extends React.Component {
     const username = this.props.review.username
     const city = this.props.review.location.split(',')[0];
     const reviewsWritten = this.props.review.reviews_written;
+    console.log(new window.Date(this.props.review.date))
     const date = this.props.review.date.split('').slice(4, 15).join('');
     const reviewEntry = this.props.review.review_entry
 
@@ -37,6 +38,8 @@ class IndividualReview extends React.Component {
     const getRandomColor = (max) => {
       return Math.floor(Math.random() * Math.floor(max));
     }
+
+    const color = colorArray[getRandomColor(4)]
 
     const iconDisplay = () => {
       if (privacy === true) {
@@ -65,7 +68,7 @@ class IndividualReview extends React.Component {
 
     let readTag;
     let reviewArr = reviewEntry.split('');
-    console.log(reviewArr)
+    // console.log(reviewArr)
 
     if (reviewArr.length > 193) {
       readTag = (<ReadTag href="#" onClick={this.showMore}>

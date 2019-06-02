@@ -7,6 +7,21 @@ import ReviewFeed from './ReviewFeed.jsx'
 import styled from 'styled-components';
 const axios = require('axios');
 
+const sortByDate = (a, b) => {
+  const dateA = new Date(a.date)
+  const dateB = new Date(b.date)
+
+  return dateB.getTime() - dateA.getTime()
+}
+
+const sortByRankingHighest = (a, b) => {
+  return b.individual_rating.Overall - a.individual_rating.Overall;
+};
+
+const sortByRankingLowest = (a, b) => {
+  return a.individual_rating.Overall - b.individual_rating.Overall;
+};
+
 class Overview extends React.Component {
   constructor(props) {
     super(props);
@@ -21,11 +36,14 @@ class Overview extends React.Component {
       recommend: 0,
       idForBar: null,
       filteredArray: [],
-      toggleSortmenu: true,
+      toggleSortmenu: false,
+      sortingBy: 'Newest',
+      sortingArray: [],
 
     }
     this.handleFilterClick = this.handleFilterClick.bind(this);
     this.handleSortClick = this.handleSortClick.bind(this);
+    this.handleOnChange = this.handleOnChange.bind(this);
   }
 
   handleFilterClick(id) {
@@ -46,14 +64,11 @@ class Overview extends React.Component {
     this.setState({
       filteredArray: filteredRatings,
     });
-
-
-
-    console.log('test', filteredRatings)
-
   }
 
+  handleSortingClick(){
 
+  }
 
   componentDidMount() {
     axios.get(`/restaurants/${this.state.id()}`)
@@ -135,9 +150,14 @@ class Overview extends React.Component {
     }));
   }
 
+  handleOnChange(event) {
+    this.setState({ sortingBy: event.target.value })
+  }
+
   render() {
     let selectedBar = this.state.idForBar;
     let filterDisplay = this.state.filteredArray;
+    let sortingBy = this.state.sortingBy
     let all = this.state.reviews
     let display;
 
@@ -146,6 +166,17 @@ class Overview extends React.Component {
     } else {
       display = filterDisplay
     }
+    let sortingFunction;
+    if (sortingBy === 'Newest') {
+      sortingFunction = sortByDate
+    } else if (sortingBy === 'Highest') {
+      sortingFunction = sortByRankingHighest
+    } else {
+      sortingFunction = sortByRankingLowest
+    }
+    display = display.sort((a, b) => {
+      return sortingFunction(a, b)
+    })
     return (
       <div>
         <ReviewsSummary>
@@ -183,7 +214,7 @@ class Overview extends React.Component {
             </OverallRatingsReviewsContainer>
           </ReviewsSummaryContainer>
         </ReviewsSummary>
-        <ReviewFeed reviewList={display} onClick={this.handleSortClick} sortMenuDisplay={this.state.toggleSortmenu}/>
+        <ReviewFeed reviewList={display} onClick={this.handleSortClick} sortMenuDisplay={this.state.toggleSortmenu} sortingBy={this.state.sortingBy} onChange={this.handleOnChange} />
       </div>
     );
   }
@@ -265,6 +296,8 @@ const StarsContainer = styled.div`
 const OverallNumberRating = styled(StarsAndRatingContainer)`
   font-size: 0.875rem;
   line-height: 1.43;
+  margin-bottom: 0.4rem;
+  margin-left: 0.1rem;
 `;
 
 const CategoryRatingsContainer = styled.div`

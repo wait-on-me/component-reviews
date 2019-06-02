@@ -8,7 +8,7 @@ const ReviewFeed = (props) => {
   return (
     <ReviewFeedContainer>
       <SortFilterToolBar>
-        <SortingTools onClick={props.onClick} sortDisplay={props.sortMenuDisplay}/>
+        <SortingTools onClick={props.onClick} sortDisplay={props.sortMenuDisplay} sortingBy={props.sortingBy} onChange={props.onChange}/>
 
       </SortFilterToolBar>
       <ReviewList reviews={props.reviewList} />

@@ -3,46 +3,47 @@ import styled from 'styled-components';
 
 const SortingTools = (props) => {
 
+
+
   console.log(props.sortDisplay)
   return (
     <div>
       <SortText>Sort by</SortText>
       <SortContainer>
 
-        <DropDownContainer onClick={props.onClick}>
-          <Dropdownspan>Newest</Dropdownspan>
+        <DropDownContainer onClick={props.onClick} isOpen={props.sortDisplay}>
+          <Dropdownspan>{props.sortingBy}</Dropdownspan>
           <IconArrow><i className="fas fa-chevron-down"></i></IconArrow>
 
+
+        </DropDownContainer>
         {props.sortDisplay === true ? (
           // console.log(props.sortDisplay)
           <DropDownOptionsContainer>
-            <NewestOption>
-              <NewestInput name="reviewSort" type="radio"></NewestInput>
-              <NewestLabel>
-                <NewSpan>Newest</NewSpan>
-              </NewestLabel>
-            </NewestOption>
-            <HighestRatingOption>
-              <HighestInput name="reviewSort" type="radio"></HighestInput>
-              <HighestLabel>
-                <HighestSpan>Highest</HighestSpan>
-              </HighestLabel>
-            </HighestRatingOption>
-            <LowestRatingOption>
-              <LowestInput name="reviewSort" type="radio"></LowestInput>
-              <LowestLabel>
-                <LowestSpan>Lowest</LowestSpan>
-              </LowestLabel>
-            </LowestRatingOption>
+            <Option>
+              <Input id="newest" name="reviewSort" type="radio" value="Newest" onChange={props.onChange}></Input>
+              <Label htmlFor="newest">
+                <Span>Newest</Span>
+              </Label>
+            </Option>
+            <Option>
+              <Input id="highest" name="reviewSort" type="radio" onChange={props.onChange} value="Highest"></Input>
+              <Label htmlFor="highest">
+                <Span>Highest</Span>
+              </Label>
+            </Option>
+            <Option>
+              <Input id="lowest" name="reviewSort" type="radio" onChange={props.onChange} value="Lowest"></Input>
+              <Label htmlFor="lowest">
+                <Span>Lowest</Span>
+              </Label>
+            </Option>
           </DropDownOptionsContainer>
         ) :
           (
             null
           )
         }
-         </DropDownContainer>
-
-
       </SortContainer>
       <FilterText>Filters</FilterText>
     </div>
@@ -56,8 +57,8 @@ const SortText = styled.div`
   line-height: 1.5;
   font-weight: 500;
   display: flex;
-  // font-family: BrandonText,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
-  // -webkit-font-smoothing: antaliased;
+  font-family: BrandonText,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
+  -webkit-font-smoothing: antaliased;
 `;
 
 const SortContainer = styled.div`
@@ -73,16 +74,15 @@ const DropDownContainer = styled.div`
   padding: 6px 0.25rem;
   font-size: 0.875rem;
   border-radius: 2px;
-  border: 1px solid #d8d9db;
+  border: 1px solid #d8d9db ;
   cursor: pointer;
   box-sizing: border-box;
+  &: hover {
+    border: 2px solid #da3743;
+    padding: 5px calc(0.25rem - 1px);
+  }
 
 `;
-
-// const TopDisplay = styled.div`
-//   display: flex;
-//   flex-direction: row;
-// `;
 
 const Dropdownspan = styled.span`
   margin: 0 0 0 0.25rem;
@@ -103,8 +103,8 @@ const IconArrow = styled.div`
 
 
 const DropDownOptionsContainer = styled.div`
-  display: none;
   position: absolute;
+  z-index: 1;
   background-color: #fff;
   width: 18rem;
   border-top: 0 none;
@@ -115,12 +115,12 @@ const DropDownOptionsContainer = styled.div`
   box-sizing: border-box;
 `;
 
-const NewestOption = styled.div`
+const Option = styled.div`
   padding: 0.5rem 0.25rem;
+  display: flex;
 `;
 
-const NewestInput = styled.input`
-  display: none;
+const Input = styled.input`
   box-sizing: border-box;
   padding: 0;
   line-height: normal;
@@ -128,66 +128,13 @@ const NewestInput = styled.input`
   font: inherit;
 `;
 
-const NewestLabel = styled.label`
+const Label = styled.label`
   display: flex;
   align-items: center;
   font-size: 0.875rem;
 `;
 
-const NewSpan = styled.span`
-  margin: 0 0 0 0.25rem;
-  font-weight: 500;
-  line-height: 1.43;
-  font-size: 0.875rem;
-  color: #6f737b;
-`;
-
-const HighestRatingOption = styled.div`
-  padding: 0.5rem 0.25rem;
-`;
-
-const HighestLabel = styled.label`
-  display: flex;
-  align-items: center;
-  font-size: 0.875rem;
-`;
-
-const HighestSpan = styled.span`
-  margin: 0 0 0 0.25rem;
-  font-weight: 500;
-  line-height: 1.43;
-  font-size: 0.875rem;
-  color: #6f737b;
-`;
-
-const HighestInput = styled.input`
-  display: none;
-  box-sizing: border-box;
-  padding: 0;
-  line-height: normal;
-  color: inherit;
-  font: inherit;
-`;
-const LowestRatingOption = styled.div`
-  padding: 0.5rem 0.25rem;
-`;
-
-const LowestInput = styled.input`
-  display: none;
-  box-sizing: border-box;
-  padding: 0;
-  line-height: normal;
-  color: inherit;
-  font: inherit;
-`;
-
-const LowestLabel = styled.label`
-  display: flex;
-  align-items: center;
-  font-size: 0.875rem;
-`;
-
-const LowestSpan = styled.span`
+const Span = styled.span`
   margin: 0 0 0 0.25rem;
   font-weight: 500;
   line-height: 1.43;
