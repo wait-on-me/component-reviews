@@ -39,11 +39,13 @@ class Overview extends React.Component {
       toggleSortmenu: false,
       sortingBy: 'Newest',
       sortingArray: [],
+      toggleFilter: false,
 
     }
     this.handleFilterClick = this.handleFilterClick.bind(this);
     this.handleSortClick = this.handleSortClick.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
+    this.handleToggleFilter = this.handleToggleFilter.bind(this);
   }
 
   handleFilterClick(id) {
@@ -66,9 +68,7 @@ class Overview extends React.Component {
     });
   }
 
-  handleSortingClick(){
-
-  }
+  
 
   componentDidMount() {
     axios.get(`/restaurants/${this.state.id()}`)
@@ -142,6 +142,12 @@ class Overview extends React.Component {
       });
   }
 
+  handleToggleFilter(){
+    event.preventDefault();
+    this.setState(state=> ({
+       toggleFilter: !state.toggleFilter
+    }));
+  }
 
   handleSortClick() {
     event.preventDefault();
@@ -214,7 +220,7 @@ class Overview extends React.Component {
             </OverallRatingsReviewsContainer>
           </ReviewsSummaryContainer>
         </ReviewsSummary>
-        <ReviewFeed reviewList={display} onClick={this.handleSortClick} sortMenuDisplay={this.state.toggleSortmenu} sortingBy={this.state.sortingBy} onChange={this.handleOnChange} />
+        <ReviewFeed reviewList={display} onClick={this.handleSortClick} sortMenuDisplay={this.state.toggleSortmenu} sortingBy={this.state.sortingBy} onChange={this.handleOnChange} toggleFilter={this.handleToggleFilter} />
       </div>
     );
   }

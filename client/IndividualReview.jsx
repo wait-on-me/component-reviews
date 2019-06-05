@@ -120,18 +120,17 @@ class IndividualReview extends React.Component {
               </ReadMoreDiv>
               <ReportAndHelpful>
                 <Report>
-                  <FlagIcon><i className="far fa-flag"></i></FlagIcon>
-                  <ReportText>Report</ReportText>
+                  <Icon><i className="far fa-flag"></i></Icon>
+                  <Text>Report</Text>
                 </Report>
                 <Helpful>
-                  <HelpfulIcon><i className="far fa-caret-square-up"></i></HelpfulIcon>
-                  <HelpfulText>Helpful</HelpfulText>
+                  <Icon><i className="far fa-caret-square-up"></i></Icon>
+                  <Text>Helpful</Text>
                 </Helpful>
               </ReportAndHelpful>
             </ReadMoreAndExtra>
           </ReviewContextContainer>
         </ReviewContainer>
-
 
       </Review >
 
@@ -362,31 +361,26 @@ const ReportAndHelpful = styled.div`
 const Report = styled.div`
   display: flex;
   align-items: center;
-  pointer: cursor;
+  cursor: pointer;
   margin-right: 0.5rem;
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
 `;
 
-const FlagIcon = styled.div`
+const Icon = styled.div`
   height: 1rem;
   width: 1rem;
 `;
 
-const ReportText = styled.div`
+const Text = styled.div`
   margin: 0 0 0 0.25rem;
   font-weight: 500;
   line-height: 1.43;
   font-size: 0.875rem;
   color: #6f737b;
-  pointer: cursor;
+  cursor: pointer;
 `;
 
 const Helpful = styled(Report)`
 `;
 
-const HelpfulIcon = styled(FlagIcon)`
-`;
-
-const HelpfulText = styled(ReportText)`
-`;

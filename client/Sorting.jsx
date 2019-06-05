@@ -46,6 +46,14 @@ const SortingTools = (props) => {
         }
       </SortContainer>
       <FilterText>Filters</FilterText>
+      {/* <FilterOptionContainer>
+        <GoodForGroups>
+            <FilterInput id="goodforgroups" type="checkbox"></FilterInput>
+          <FilterLabel htmlFor="goodforgroups"></FilterLabel>
+            <Span>Good For Groups</Span>
+        </GoodForGroups> */}
+      {/* </FilterOptionContainer> */}
+
     </div>
   )
 };
@@ -145,3 +153,36 @@ const Span = styled.span`
 const FilterText = styled(SortText)`
   display: flex;
 `;
+
+// const FilterOptionContainer = styled.div`
+//   padding-top: 0.5rem;
+//   padding-bottom: 1rem;
+// `;
+
+// const GoodForGroups = styled.span`
+//   font-family: BrandonText,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
+// `;
+
+// const FilterInput = styled.input`
+//   display: none;
+//   box-sizing: border-box;
+//   padding: 0;
+//   line-height: normal;
+// `;
+
+// const FilterLabel = styled.label`
+//   display: inline-flex;
+//   align-items: center;
+//   margin-right: 1rem;
+//   margin-bottom: 1rem;
+//   cursor: pointer;
+//   border: 1px solid #d8d9db;
+//   background: none; 
+//   box-sizing: border-box;
+//   padding: 0.5rem;
+//   font-size: 1rem;
+//   font-weight: 500;
+//   border-radius: .125rem;
+
+// `;
+
