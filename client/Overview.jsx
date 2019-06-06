@@ -1,8 +1,9 @@
 import React from 'react';
 import RatingsSummary from './RatingsSummary.jsx';
-import BarGraph from './BarGraph.jsx'
-import Stars from './OverallStars.jsx'
-import ReviewFeed from './ReviewFeed.jsx'
+import BarGraph from './BarGraph.jsx';
+import Stars from './OverallStars.jsx';
+import ReviewFeed from './ReviewFeed.jsx';
+import PagePagination from './PagePagination.jsx';
 
 import styled from 'styled-components';
 const axios = require('axios');
@@ -26,7 +27,7 @@ class Overview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: () => Math.floor(Math.random() * 25),
+      id: () => Math.floor(Math.random() * 100),
       numOfReviews: 0,
       overall: 0,
       ratingList: {},
@@ -40,6 +41,8 @@ class Overview extends React.Component {
       sortingBy: 'Newest',
       sortingArray: [],
       toggleFilter: false,
+      currentPage: 1,
+      paginatedReviews: [],
 
     }
     this.handleFilterClick = this.handleFilterClick.bind(this);
@@ -74,14 +77,16 @@ class Overview extends React.Component {
     axios.get(`/restaurants/${this.state.id()}`)
       .then((response) => {
         console.log(response.data);
+        let paginated = response.data.reviews.slice(0, 10);
         this.setState({
           numOfReviews: response.data.reviews.length,
           overall: response.data.rating.Overall,
           ratingList: response.data.rating,
           reviews: response.data.reviews,
+          paginatedReviews: paginated,
         });
 
-        const obj = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 }
+        const obj = { 5: 0, 4: 0, 3: 0, 2: 0, 1:  0 }
         const reviewsList = response.data.reviews;
 
         const barRatings = reviewsList.reduce((acc, review) => {
@@ -142,6 +147,10 @@ class Overview extends React.Component {
       });
   }
 
+  // handleNextPageClick() {
+
+  // }
+
   handleToggleFilter(){
     event.preventDefault();
     this.setState(state=> ({
@@ -183,6 +192,7 @@ class Overview extends React.Component {
     display = display.sort((a, b) => {
       return sortingFunction(a, b)
     })
+    
     return (
       <div>
         <ReviewsSummary>
@@ -221,6 +231,7 @@ class Overview extends React.Component {
           </ReviewsSummaryContainer>
         </ReviewsSummary>
         <ReviewFeed reviewList={display} onClick={this.handleSortClick} sortMenuDisplay={this.state.toggleSortmenu} sortingBy={this.state.sortingBy} onChange={this.handleOnChange} toggleFilter={this.handleToggleFilter} />
+        
       </div>
     );
   }
