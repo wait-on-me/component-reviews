@@ -41,8 +41,9 @@ class Overview extends React.Component {
       sortingBy: 'Newest',
       sortingArray: [],
       toggleFilter: false,
-      currentPage: 1,
-      paginatedReviews: [],
+      // currentPage: 1,
+      // paginatedReviews: [],
+      numOfPages: null,
 
     }
     this.handleFilterClick = this.handleFilterClick.bind(this);
@@ -71,22 +72,24 @@ class Overview extends React.Component {
     });
   }
 
-  
+
 
   componentDidMount() {
     axios.get(`/restaurants/${this.state.id()}`)
       .then((response) => {
         console.log(response.data);
-        let paginated = response.data.reviews.slice(0, 10);
+        let pages= Math.ceil(response.data.reviews.length/10);
+
         this.setState({
           numOfReviews: response.data.reviews.length,
           overall: response.data.rating.Overall,
           ratingList: response.data.rating,
           reviews: response.data.reviews,
-          paginatedReviews: paginated,
+          numOfPages: pages,
+          // paginatedReviews: paginated,
         });
 
-        const obj = { 5: 0, 4: 0, 3: 0, 2: 0, 1:  0 }
+        const obj = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 }
         const reviewsList = response.data.reviews;
 
         const barRatings = reviewsList.reduce((acc, review) => {
@@ -151,10 +154,10 @@ class Overview extends React.Component {
 
   // }
 
-  handleToggleFilter(){
+  handleToggleFilter() {
     event.preventDefault();
-    this.setState(state=> ({
-       toggleFilter: !state.toggleFilter
+    this.setState(state => ({
+      toggleFilter: !state.toggleFilter
     }));
   }
 
@@ -192,7 +195,7 @@ class Overview extends React.Component {
     display = display.sort((a, b) => {
       return sortingFunction(a, b)
     })
-    
+
     return (
       <div>
         <ReviewsSummary>
@@ -230,8 +233,8 @@ class Overview extends React.Component {
             </OverallRatingsReviewsContainer>
           </ReviewsSummaryContainer>
         </ReviewsSummary>
-        <ReviewFeed reviewList={display} onClick={this.handleSortClick} sortMenuDisplay={this.state.toggleSortmenu} sortingBy={this.state.sortingBy} onChange={this.handleOnChange} toggleFilter={this.handleToggleFilter} />
-        
+        <ReviewFeed reviewList={display} onClick={this.handleSortClick} sortMenuDisplay={this.state.toggleSortmenu} sortingBy={this.state.sortingBy} onChange={this.handleOnChange} toggleFilter={this.handleToggleFilter} numOfPages={this.state.numOfPages} />
+
       </div>
     );
   }

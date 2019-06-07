@@ -8,18 +8,19 @@ import PagePagination from './PagePagination';
 class ReviewFeed extends React.Component {
   constructor(props) {
     super(props);
-    this.state= {
+    this.state = {
+      firstPage: 1,
       currentPage: 1,
-      paginatedReviews: [],
       previous: null,
-      next: null,
+      next: 2,
       beginning: 0,
       end: 10,
       lastPage: null,
-      
+
     };
     this.handleNextClick = this.handleNextClick.bind(this);
     this.handlePrevClick = this.handlePrevClick.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   // componentDidUpdate(prevProps) {
@@ -37,7 +38,7 @@ class ReviewFeed extends React.Component {
       let previous = 1;
       let currPg = currentPage;
       let next = currentPage + 1;
-      let beginning = this.state.beginning 
+      let beginning = this.state.beginning
       let end = this.state.beginning + 10;
 
       this.setState({
@@ -46,9 +47,10 @@ class ReviewFeed extends React.Component {
         next: next,
         beginning: beginning,
         end: end,
+
       });
     } else {
-      if (currentPage >= 2){
+      if (currentPage >= 2) {
         let previous = currentPage - 2;
         let currPg = currentPage - 1;
         let next = currentPage;
@@ -62,17 +64,17 @@ class ReviewFeed extends React.Component {
           beginning: beginning,
           end: end,
         });
-      } 
+      }
     }
     console.log('clicked')
   }
-  
-  handleNextClick() {    
-    let length = Math.ceil(this.props.reviewList.length/10)
-    console.log('tes', length)
-     event.preventDefault();
 
-     if (this.state.currentPage === length) {  
+  handleNextClick() {
+    let length = Math.ceil(this.props.reviewList.length / 10)
+    console.log('tes', length)
+    event.preventDefault();
+
+    if (this.state.currentPage === length) {
       let previous = this.state.currentPage - 1;
       let currentPg = this.state.currentPage;
       let next = length;
@@ -80,52 +82,80 @@ class ReviewFeed extends React.Component {
       let end = this.state.end + 0;
 
       this.setState({
-       currentPage: currentPg,
-       previous: previous,
-       next: next,
-       beginning: beginning,
-       end: end,
+        currentPage: currentPg,
+        previous: previous,
+        next: next,
+        beginning: beginning,
+        end: end,
+        lastPage: length,
       });
-     } else {
+    } else {
       if (this.state.currentPage >= 1) {
         let previous = this.state.currentPage;
-        let currentPg = this.state.currentPage + 1; 
+        let currentPg = this.state.currentPage + 1;
         let next = this.state.currentPage + 2;
         let beginning = this.state.beginning + 10;
         let end = this.state.end + 10;
-       //  console.log('length', length)
+
+        //  console.log('length', length)
         this.setState({
           currentPage: currentPg,
           previous: previous,
           next: next,
           beginning: beginning,
           end: end,
-          
+          lastPage: length,
+
         });
       }
-     }
+    }
     console.log('click works')
   }
 
+
+  handleClick(e) {
+    event.preventDefault();
+    // let current = Number(e.target.innerHTML);
+    let previousPg = Number(e.target.innerHTML) - 1;
+    let begin = previousPg * 10;
+    // let endNum = Number(e.target.innerHTML) * 10;
+    let nextPg;
+
+    if (this.state.next === this.state.lastPage) {
+      nextPg = Number(e.target.innerHTML) + 0
+    } else {
+      nextPg = Number(e.target.innerHTML) + 1
+    }
+
+    this.setState({
+      currentPage: Number(e.target.innerHTML),
+      previous: previousPg,
+      next: nextPg,
+      beginning: begin,
+      end: Number(e.target.innerHTML) * 10,
+    })
+    console.log('clicked', e.target.innerHTML)
+  }
+
   render() {
-  
+
     let beg = this.state.beginning;
     let end = this.state.end;
     let allReviews = this.props.reviewList;
-    let paginated = this.props.reviewList.slice(beg, end);
-    
-    
+    let paginated = allReviews.slice(beg, end);
 
-  return (
-    <ReviewFeedContainer>
-      <SortFilterToolBar>
-        <SortingTools onClick={this.props.onClick} sortDisplay={this.props.sortMenuDisplay} sortingBy={this.props.sortingBy} onChange={this.props.onChange} toggleFilter={this.props.toggleFilter} />
 
-      </SortFilterToolBar>
-      <ReviewList reviews={paginated} />
-      <PagePagination onClick={this.handleNextClick} onPrevClick={this.handlePrevClick} />
-    </ReviewFeedContainer>
-  );
+
+    return (
+      <ReviewFeedContainer>
+        <SortFilterToolBar>
+          <SortingTools onClick={this.props.onClick} sortDisplay={this.props.sortMenuDisplay} sortingBy={this.props.sortingBy} onChange={this.props.onChange} toggleFilter={this.props.toggleFilter} />
+
+        </SortFilterToolBar>
+        <ReviewList reviews={paginated} />
+        <PagePagination onClick={this.handleNextClick} onPrevClick={this.handlePrevClick} numOfPages={this.props.numOfPages} firstPage={this.state.firstPage} currentPage={this.state.currentPage} previous={this.state.previous} next={this.state.next} beginning={this.state.beginning} end={this.state.end} lastPage={this.state.lastPage} handleClick={this.handleClick} />
+      </ReviewFeedContainer>
+    );
 
   }
 
