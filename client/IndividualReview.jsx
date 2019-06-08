@@ -123,9 +123,6 @@ class IndividualReview extends React.Component {
             <ReadMoreAndExtra>
               <ReadMoreDiv >
                 {readTag}
-                {/* <ReadTag href="#" onClick={this.showMore}>
-                  {expand ? '- Read Less' : '+ Read More'}
-                </ReadTag> */}
               </ReadMoreDiv>
               <ReportAndHelpful>
                 <Report onClick={this.toggleReportModal} >
@@ -154,7 +151,6 @@ class IndividualReview extends React.Component {
 
                   </Form>
                 </ReportModal>
-
                 ) : 
                   (
                     null
@@ -337,18 +333,6 @@ const UserReviewExpanded = styled.div`
   
 `;
 
-// const UserReview = css`
-//   margin-top: 1rem;
-//   margin-bottom: 0.5rem;
-//   display: -webkit-box;
-//   -webkit-box-orient: vertical;
-//   -webkit-line-clamp: 3;
-
-//   overflow: ${props => (props.expand ? 'hidden' : 'visible')};
-//   text-overflow: ${props => (props.expand ? 'ellipsis' : 'none')};
-//   height: auto;
-// `;
-
 const ReviewParagraph = styled.p`
   margin-bottom: 0;
   margin-top: 0;
@@ -463,7 +447,6 @@ const ReportTextContainer = styled.div`
   padding-left: 1rem;
   padding-right: 1rem;
   height: auto;
-  //width: 25rem;
 `;    
 
 const ReportText = styled.div`
@@ -543,12 +526,3 @@ const CancelButton = styled(ReportButton)`
   color: #2d333f;
   text-decoration: none;
 `;
-
-// const CancelButton = styled.div`
-//   margin-right: 0;
-//   padding: .75rem 1rem;
-//   border: 1px solid #d8d9db;
-//   background-color: #ffffff;
-//   color: #2d333f;
-//   text-decoration: none;
-// `;
