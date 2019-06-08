@@ -9,14 +9,23 @@ class IndividualReview extends React.Component {
     super(props);
     this.state = {
       expand: false,
+      showReportModal: false,
     };
 
     this.showMore = this.showMore.bind(this);
+    this.toggleReportModal = this.toggleReportModal.bind(this);
   }
 
   showMore() {
     event.preventDefault();
-    this.setState({ expand: !this.state.expand })
+    this.setState({ expand: !this.state.expand });
+  }
+
+  toggleReportModal () {
+    event.preventDefault();
+    this.setState(state => ({
+      showReportModal: !this.state.showReportModal
+    }));
   }
 
   // console.log(props.review)
@@ -119,7 +128,7 @@ class IndividualReview extends React.Component {
                 </ReadTag> */}
               </ReadMoreDiv>
               <ReportAndHelpful>
-                <Report>
+                <Report onClick={this.toggleReportModal} >
                   <Icon><i className="far fa-flag"></i></Icon>
                   <Text>Report</Text>
                 </Report>
@@ -127,6 +136,30 @@ class IndividualReview extends React.Component {
                   <Icon><i className="far fa-caret-square-up"></i></Icon>
                   <Text>Helpful</Text>
                 </Helpful>
+                {this.state.showReportModal === true ? (
+                <ReportModal>
+                  <ReportHeadlineContainer>
+                    <ReportHeadline>Report this review as inappropriate?</ReportHeadline>
+                  </ReportHeadlineContainer>
+                  <ReportTextContainer>
+                    <ReportText>If you believe this review should be removed from WaitOnMe, please let us know and someone will investigate.</ReportText>
+                  </ReportTextContainer>
+                  <Form>
+                    <FormInput type="hidden" name="reviewId" value="formVal"></FormInput>
+                    <FormText placeholder="Tell us why you find the review inappropriate"></FormText>
+                    <ButtonDiv>
+                      <ReportButton>Report</ReportButton>
+                      <CancelButton onClick={this.toggleReportModal}>Cancel</CancelButton>
+                    </ButtonDiv>  
+
+                  </Form>
+                </ReportModal>
+
+                ) : 
+                  (
+                    null
+                  )
+                }
               </ReportAndHelpful>
             </ReadMoreAndExtra>
           </ReviewContextContainer>
@@ -365,6 +398,9 @@ const Report = styled.div`
   margin-right: 0.5rem;
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
+  :hover {
+    color: #da3743
+  }
 `;
 
 const Icon = styled.div`
@@ -379,8 +415,140 @@ const Text = styled.div`
   font-size: 0.875rem;
   color: #6f737b;
   cursor: pointer;
+  :hover {
+    color: #da3743;
+  }
 `;
 
 const Helpful = styled(Report)`
 `;
 
+const ReportModal = styled.div`
+  position: absolute;
+  background: #ffffff;
+  z-index: 1000;
+  border: 1px solid #e1e1e1;
+  border-radius: 2px;
+  padding-top: 1rem;
+  box-shadow: 0 2px 4px rgba(51,51,51,.2);
+  bottom: 2.5rem;
+  right: -8.5rem;
+  margin-left: -11rem;
+  max-width: 25rem;
+`;
+
+const ReportHeadlineContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  justify-content: flex-end;
+  background-color: #ffffff;
+  line-height: 2rem;
+  border-top-left-radius: 2px;
+  border-top-right-radius 2px;
+  text-align: center;
+  font-family:  BrandonText,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
+  -webkit-font-smoothing: antialiased;
+`;
+
+const ReportHeadline = styled.div`
+  font-size: 1.125rem;
+  justify-content: center;
+  border-bottom: 1px solid #d8d9db;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+`;
+
+const ReportTextContainer = styled.div`
+  padding-left: 1rem;
+  padding-right: 1rem;
+  height: auto;
+  //width: 25rem;
+`;    
+
+const ReportText = styled.div`
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: 500;
+  display: flex;
+`;
+
+const Form = styled.form`
+  margin-bottom: 1rem;
+`;
+
+const FormInput = styled.input`
+  line-height: normal;
+`;
+
+const FormText = styled.textarea`
+  width: 90%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 5rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  // padding: 0.5rem;
+  resize: none;
+  overflow: auto;
+  -webkit-appearance: textarea;
+  background-color: white;
+  flex-direction: column;
+  cursor: text;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  border-width: 1px;
+  border-style: solid;
+  text-rendering: auto;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-transform: none;
+  text-indent: 0px;
+  text-shadow: none;
+  text-align: start;
+  font-size: 1rem;
+  line-height: 1.5;
+`;
+
+const ButtonDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding-right: 1rem;
+  padding-left: 1rem;
+`;
+
+const ReportButton = styled.button`
+  padding: .75rem 1rem;
+  text-decoration: none;
+  background-color: #da3743;
+  color: #ffffff;
+  border: none;
+  font-size: 1rem;
+  line-height: 1.5;
+  width: 18rem;
+  font-weight: 500;
+  border-radius: 2px;
+  display: inline-block;
+  box-sizing: border-box;
+  margin-right: 1rem;
+`;
+
+const CancelButton = styled(ReportButton)`
+  margin-right: 0;
+  padding: .75rem 1rem;
+  border: 1px solid #d8d9db;
+  background-color: #ffffff;
+  color: #2d333f;
+  text-decoration: none;
+`;
+
+// const CancelButton = styled.div`
+//   margin-right: 0;
+//   padding: .75rem 1rem;
+//   border: 1px solid #d8d9db;
+//   background-color: #ffffff;
+//   color: #2d333f;
+//   text-decoration: none;
+// `;
