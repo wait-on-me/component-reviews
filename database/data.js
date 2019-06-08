@@ -17,7 +17,7 @@ const noiseLevel = ['Quiet', 'Moderate', 'Energetic'];
 
 const newReview = () => {
   const reviewsArray = [];
-  for (var i = 1; i < getRandom(5, 75); i++) {
+  for (var i = 1; i < getRandom(75, 225); i++) {
     const reviews = {
       first_name: faker.name.firstName(),
       last_name: faker.name.lastName(),
