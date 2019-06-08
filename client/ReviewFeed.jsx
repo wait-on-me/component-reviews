@@ -23,13 +23,6 @@ class ReviewFeed extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  // componentDidUpdate(prevProps) {
-  //   let amtPages = Math.ceil((this.props.reviewList.length));
-  //   console.log('lengthtest',amtPages)
-  //   this.setState({
-  //     lastPage: Math.ceil((this.props.reviewList.length/10)),
-  //   });
-  // }
   handlePrevClick() {
     const { currentPage } = this.state;
     event.preventDefault();
@@ -114,11 +107,10 @@ class ReviewFeed extends React.Component {
 
 
   handleClick(e) {
-    event.preventDefault();
+    // event.preventDefault();
     // let current = Number(e.target.innerHTML);
     let previousPg = Number(e.target.innerHTML) - 1;
     let begin = previousPg * 10;
-    // let endNum = Number(e.target.innerHTML) * 10;
     let nextPg;
 
     if (this.state.next === this.state.lastPage) {
