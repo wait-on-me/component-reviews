@@ -41,10 +41,7 @@ class Overview extends React.Component {
       sortingBy: 'Newest',
       sortingArray: [],
       toggleFilter: false,
-      // currentPage: 1,
-      // paginatedReviews: [],
       numOfPages: null,
-
     }
     this.handleFilterClick = this.handleFilterClick.bind(this);
     this.handleSortClick = this.handleSortClick.bind(this);
