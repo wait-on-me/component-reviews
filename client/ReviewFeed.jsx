@@ -141,7 +141,7 @@ class ReviewFeed extends React.Component {
     return (
       <ReviewFeedContainer>
         <SortFilterToolBar>
-          <SortingTools onClick={this.props.onClick} sortDisplay={this.props.sortMenuDisplay} sortingBy={this.props.sortingBy} onChange={this.props.onChange} toggleFilter={this.props.toggleFilter} onClickChange={this.props.onClickChange} checkBox={this.props.checkBox} showFilterModal={this.props.showFilterModal} filterCheckbox={this.props.filterCheckbox} onFilterChange={this.props.onFilterChange} />
+          <SortingTools onClick={this.props.onClick} sortDisplay={this.props.sortMenuDisplay} sortingBy={this.props.sortingBy} onChange={this.props.onChange} toggleFilter={this.props.toggleFilter} onClickChange={this.props.onClickChange} checkBox={this.props.checkBox} showFilterModal={this.props.showFilterModal} filterCheckbox={this.props.filterCheckbox} onFilterChange={this.props.onFilterChange} idForBar={this.props.idForBar} />
 
         </SortFilterToolBar>
         <ReviewList reviews={paginated} />

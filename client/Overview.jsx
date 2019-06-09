@@ -95,9 +95,11 @@ class Overview extends React.Component {
   
   handleFilterCheck() {
     event.preventDefault();
+    let allPages = Math.ceil(this.state.reviews.length/10)
     this.setState(state => ({
       filterCheckbox: !state.filterCheckbox,
       showFilterModal: !state.showFilterModal,
+      numOfPages: allPages,
     }));
   }
 
@@ -205,16 +207,12 @@ class Overview extends React.Component {
     let selectedBar = this.state.idForBar;
     let filterDisplay = this.state.filteredArray;
     let sortingBy = this.state.sortingBy
+    let filterStatus = this.state.showFilterModal;
     let all = this.state.reviews
     let display;
 
-    if (!this.state.showFilterModal === true) {
-      display = all
-    } else {
-      display = filterDisplay
-    }
 
-    if (selectedBar === null) {
+    if (selectedBar === null || filterStatus === false) {
       display = all
     } else {
       display = filterDisplay
@@ -268,7 +266,7 @@ class Overview extends React.Component {
             </OverallRatingsReviewsContainer>
           </ReviewsSummaryContainer>
         </ReviewsSummary>
-        <ReviewFeed reviewList={display} onClick={this.handleSortClick} sortMenuDisplay={this.state.toggleSortmenu} sortingBy={this.state.sortingBy} onChange={this.handleOnChange} toggleFilter={this.handleToggleFilter} numOfPages={this.state.numOfPages} onClickChange={this.handleCheck} checkBox={this.state.checkBox} showFilterModal={this.state.showFilterModal} filterCheckbox={this.state.filterCheckbox} onFilterChange={this.handleFilterCheck} />
+        <ReviewFeed reviewList={display} onClick={this.handleSortClick} sortMenuDisplay={this.state.toggleSortmenu} sortingBy={this.state.sortingBy} onChange={this.handleOnChange} toggleFilter={this.handleToggleFilter} numOfPages={this.state.numOfPages} onClickChange={this.handleCheck} checkBox={this.state.checkBox} showFilterModal={this.state.showFilterModal} filterCheckbox={this.state.filterCheckbox} onFilterChange={this.handleFilterCheck} idForBar={this.state.idForBar} />
 
       </div>
     );

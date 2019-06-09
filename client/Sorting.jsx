@@ -14,7 +14,7 @@ const SortingTools = (props) => {
           {props.filterCheckbox === true ? (
             <i className="fas fa-check-square" style={{color: '#da3743'}}></i>
           ) : (<i className="far fa-square"></i>)}
-          <FilterSpan>stars</FilterSpan>
+          <FilterSpan>{props.idForBar} stars</FilterSpan>
           </FilterLabel>
     </GoodForGroups>)
   } else {
