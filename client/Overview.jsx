@@ -42,11 +42,16 @@ class Overview extends React.Component {
       sortingArray: [],
       toggleFilter: false,
       numOfPages: null,
+      checkBox: false,
+      showFilterModal: false,
+      filterCheckbox: false,
     }
     this.handleFilterClick = this.handleFilterClick.bind(this);
     this.handleSortClick = this.handleSortClick.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleToggleFilter = this.handleToggleFilter.bind(this);
+    this.handleCheck = this.handleCheck.bind(this);
+    this.handleFilterCheck = this.handleFilterCheck.bind(this);
   }
 
   handleFilterClick(id) {
@@ -64,11 +69,37 @@ class Overview extends React.Component {
       return review.individual_rating.Overall === clickedId
     })
 
+    let pages = Math.ceil(filteredRatings.length/10);
+
     this.setState({
       filteredArray: filteredRatings,
+      numOfPages: pages,
+      filterCheckbox: true,
+      showFilterModal: true,
+
     });
   }
+ 
+  handleCheck() {
+    this.setState(state => ({
+      checkBox: !state.checkBox
+    }));
+  }
 
+  showFilterCheckbox() {
+    this.setState(state => ({
+      showFilterModal: !state.showFilterModal,
+
+    }));
+  }
+  
+  handleFilterCheck() {
+    event.preventDefault();
+    this.setState(state => ({
+      filterCheckbox: !state.filterCheckbox,
+      showFilterModal: !state.showFilterModal,
+    }));
+  }
 
 
   componentDidMount() {
@@ -155,6 +186,7 @@ class Overview extends React.Component {
     event.preventDefault();
     this.setState(state => ({
       toggleFilter: !state.toggleFilter
+
     }));
   }
 
@@ -175,6 +207,12 @@ class Overview extends React.Component {
     let sortingBy = this.state.sortingBy
     let all = this.state.reviews
     let display;
+
+    if (!this.state.showFilterModal === true) {
+      display = all
+    } else {
+      display = filterDisplay
+    }
 
     if (selectedBar === null) {
       display = all
@@ -230,7 +268,7 @@ class Overview extends React.Component {
             </OverallRatingsReviewsContainer>
           </ReviewsSummaryContainer>
         </ReviewsSummary>
-        <ReviewFeed reviewList={display} onClick={this.handleSortClick} sortMenuDisplay={this.state.toggleSortmenu} sortingBy={this.state.sortingBy} onChange={this.handleOnChange} toggleFilter={this.handleToggleFilter} numOfPages={this.state.numOfPages} />
+        <ReviewFeed reviewList={display} onClick={this.handleSortClick} sortMenuDisplay={this.state.toggleSortmenu} sortingBy={this.state.sortingBy} onChange={this.handleOnChange} toggleFilter={this.handleToggleFilter} numOfPages={this.state.numOfPages} onClickChange={this.handleCheck} checkBox={this.state.checkBox} showFilterModal={this.state.showFilterModal} filterCheckbox={this.state.filterCheckbox} onFilterChange={this.handleFilterCheck} />
 
       </div>
     );
