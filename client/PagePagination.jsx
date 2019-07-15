@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import styled from 'styled-components';
 
 
@@ -10,107 +10,63 @@ class PagePagination extends React.Component {
   };
 
   render() {
-    
+
     let { firstPage, numOfPages, currentPage, previous, next, beginning, end, lastPage } = this.props;
     let pageNavigation;
     let afterNextPg = next + 1;
     let beforePrevPg = previous - 1;
-    let span = '...'
-    
-
-    if (currentPage === 1) {
-      pageNavigation = (
-      <div>  
-        <Pages style={{border: '2px solid #da3743'}}><PageSpan onClick={this.props.handleClick}>{currentPage}</PageSpan></Pages>
-        <AllPages><PageSpan onClick={this.props.handleClick}>{next}</PageSpan></AllPages>
-        <AllPages><PageSpan onClick={this.props.handleClick}>{afterNextPg}</PageSpan></AllPages>
-        <Dot><PageSpan onClick={this.props.handleClick}>{span}</PageSpan></Dot>
-        <AllPages><PageSpan onClick={this.props.handleClick}>{numOfPages}</PageSpan></AllPages>
-      </div>)
-    } else if (currentPage === 2) {
-      pageNavigation = (
-        <div>
-        <Pages><PageSpan onClick={this.props.handleClick}>{firstPage}</PageSpan></Pages>
-        <AllPages style={{border: '2px solid #da3743'}}><PageSpan onClick={this.props.handleClick}>{currentPage}</PageSpan></AllPages>
-        <AllPages><PageSpan onClick={this.props.handleClick}>{next}</PageSpan></AllPages>
-        <Dot><PageSpan onClick={this.props.handleClick}>{span}</PageSpan></Dot>
-        <AllPages><PageSpan onClick={this.props.handleClick}>{numOfPages}</PageSpan></AllPages>
-        </div>
-      )
-    } else if (currentPage === 3) {
-      pageNavigation = (
-        <div>
-        <Pages><PageSpan onClick={this.props.handleClick}>{firstPage}</PageSpan></Pages>
-        <AllPages><PageSpan onClick={this.props.handleClick}>{previous}</PageSpan></AllPages>
-        <AllPages style={{border: '2px solid #da3743'}}><PageSpan onClick={this.props.handleClick}>{currentPage}</PageSpan></AllPages>
-        <AllPages><PageSpan onClick={this.props.handleClick}>{next}</PageSpan></AllPages>
-        <Dot><PageSpan onClick={this.props.handleClick}>{span}</PageSpan></Dot>
-        <AllPages><PageSpan onClick={this.props.handleClick}>{numOfPages}</PageSpan></AllPages>
-        </div>
-      )
-    } else if ((currentPage >= 4) && (currentPage + 1 === numOfPages)) {
-      pageNavigation = (
-        <div>
-        <Pages><PageSpan onClick={this.props.handleClick}>{firstPage}</PageSpan></Pages>
-        <Dot><PageSpan onClick={this.props.handleClick}>{span}</PageSpan></Dot>
-        <AllPages><PageSpan onClick={this.props.handleClick}>{previous}</PageSpan></AllPages>
-        <AllPages style={{border: '2px solid #da3743'}}><PageSpan onClick={this.props.handleClick}>{currentPage}</PageSpan></AllPages>
-        <AllPages><PageSpan onClick={this.props.handleClick}>{numOfPages}</PageSpan></AllPages>
-        </div>
-      )
-    } else if (currentPage === lastPage) {
-        pageNavigation = (
-          <div>
-          <Pages><PageSpan onClick={this.props.handleClick}>{firstPage}</PageSpan></Pages>
-          <Dot><PageSpan onClick={this.props.handleClick}>{span}</PageSpan></Dot>
-          <AllPages><PageSpan onClick={this.props.handleClick}>{beforePrevPg}</PageSpan></AllPages>
-          <AllPages><PageSpan onClick={this.props.handleClick}>{previous}</PageSpan></AllPages>
-          <AllPages style={{border: '2px solid #da3743'}}><PageSpan onClick={this.props.handleClick}>{numOfPages}</PageSpan></AllPages>
-          </div>
-        )
-      } else if ((currentPage >= 4) && (currentPage <= lastPage - 3)) {
-      pageNavigation = (
-        <div>
-        <Pages><PageSpan onClick={this.props.handleClick}>{firstPage}</PageSpan></Pages>
-        <Dot><PageSpan onClick={this.props.handleClick}>{span}</PageSpan></Dot>
-        <AllPages><PageSpan onClick={this.props.handleClick}>{previous}</PageSpan></AllPages>
-        <AllPages style={{border: '2px solid #da3743'}}><PageSpan onClick={this.props.handleClick}>{currentPage}</PageSpan></AllPages>
-        <AllPages><PageSpan onClick={this.props.handleClick}>{next}</PageSpan></AllPages>
-        <Dot><PageSpan onClick={this.props.handleClick}>{span}</PageSpan></Dot>
-        <AllPages><PageSpan onClick={this.props.handleClick}>{numOfPages}</PageSpan></AllPages>
-        </div>
-      )
-    } else {
-      if ((currentPage >= 4) && (currentPage > lastPage - 4)) {
-      pageNavigation = (
-        <div>
-        <Pages><PageSpan onClick={this.props.handleClick}>{firstPage}</PageSpan></Pages>
-        <Dot><PageSpan onClick={this.props.handleClick}>{span}</PageSpan></Dot>
-        <AllPages><PageSpan onClick={this.props.handleClick}>{previous}</PageSpan></AllPages>
-        <AllPages style={{border: '2px solid #da3743'}}><PageSpan onClick={this.props.handleClick}>{currentPage}</PageSpan></AllPages>
-        <AllPages><PageSpan onClick={this.props.handleClick}>{next}</PageSpan></AllPages>
-        <AllPages><PageSpan onClick={this.props.handleClick}>{numOfPages}</PageSpan></AllPages>
-        </div>
-      )
-     } 
-    }
 
     return (
       <PageNavContainer>
         <PageDiv onClick={this.props.onPrevClick}>
           <LeftArrow><i className="fas fa-angle-left"></i></LeftArrow>
         </PageDiv>
-        {/* <Pages>
-          <PageSpan>{firstPage}</PageSpan>
-        </Pages> */}
-        {pageNavigation}
-        {/* <AllPages>
-          <PageSpan>{numOfPages}</PageSpan>
-        </AllPages> */}
+        {
+          new Array(numOfPages).fill(0).map((_, index) => {
+            const value = index + 1
+            const isSelected = currentPage === value
+            const isFirstPage = value === firstPage
+            const isLastPage = value === numOfPages
+            let isWithinRange = false
+            let shouldShowRightDots = false
+            let shouldShowLeftDots = false
+            if (value === currentPage + 1 || value === currentPage - 1) {
+              isWithinRange = true
+            }
+            if (currentPage === firstPage && value === currentPage + 2) {
+              isWithinRange = true
+            }
+            if (currentPage === numOfPages && value === currentPage - 2) {
+              isWithinRange = true
+            }
+            if (!isFirstPage && !isLastPage && !isWithinRange && !isSelected) {
+              return null
+            }
+
+            // Will render the dots if the number is bigger that the firstPage + 2 
+            // eg. firstPage = 1 currentPage = 5
+            if (isFirstPage && currentPage > firstPage + 2) {
+              shouldShowRightDots = true
+            }
+            // Will render the dots if the number is less number of pages -2 
+            // eg. lastpage = 10 currentPage = 5
+            if (isLastPage && currentPage < numOfPages - 2) {
+              shouldShowLeftDots = true
+            }
+
+            return <Fragment key={value}>
+              {shouldShowLeftDots ? <Dot><PageSpan>...</PageSpan></Dot> : null}
+              <AllPages key={value} isSelected={isSelected}>
+                <PageSpan onClick={this.props.handleClick}>{value}</PageSpan></AllPages>
+              {shouldShowRightDots ? <Dot><PageSpan>...</PageSpan></Dot> : null}
+            </Fragment>
+
+          })
+        }
         <PageDiv onClick={this.props.onClick}>
           <RightArrow><i className="fas fa-angle-right"></i></RightArrow>
         </PageDiv>
-      </PageNavContainer>
+      </PageNavContainer >
 
     )
   }
@@ -174,12 +130,14 @@ const PageSpan = styled.span`
 
 const AllPages = styled(RightArrow)`
   border-radius: 5000px;
-  border: solid 1px #d8d9b;
-  margin-left: calc(0.5rem - 1px);
-  margin-right: calc(0.5rem - 1px);
+  border: ${(props) => {
+    return props.isSelected ? '2px solid #da3743' : 'solid 1px #d8d9b;'
+  }}
+  margin - left: calc(0.5rem - 1px);
+margin - right: calc(0.5rem - 1px);
 `;
 
 const Dot = styled(RightArrow)`
-  border: none;
-  text-align: center;
+border: none;
+text - align: center;
 `;
