@@ -21,7 +21,7 @@ class IndividualReview extends React.Component {
     this.setState({ expand: !this.state.expand });
   }
 
-  toggleReportModal () {
+  toggleReportModal() {
     event.preventDefault();
     this.setState(state => ({
       showReportModal: !this.state.showReportModal
@@ -52,7 +52,7 @@ class IndividualReview extends React.Component {
 
     const iconDisplay = () => {
       if (privacy === true) {
-        return 'OT';
+        return 'WM';
       } else {
         return firstInit + lastInit;
       }
@@ -60,7 +60,7 @@ class IndividualReview extends React.Component {
 
     const displayName = () => {
       if (privacy === true) {
-        return 'OpenTable' + ' ' + 'Diner';
+        return 'WaitOnMe' + ' ' + 'Diner';
       }
       return name;
     }
@@ -134,24 +134,24 @@ class IndividualReview extends React.Component {
                   <Text>Helpful</Text>
                 </Helpful>
                 {this.state.showReportModal === true ? (
-                <ReportModal>
-                  <ReportHeadlineContainer>
-                    <ReportHeadline>Report this review as inappropriate?</ReportHeadline>
-                  </ReportHeadlineContainer>
-                  <ReportTextContainer>
-                    <ReportText>If you believe this review should be removed from WaitOnMe, please let us know and someone will investigate.</ReportText>
-                  </ReportTextContainer>
-                  <Form>
-                    <FormInput type="hidden" name="reviewId" value="formVal"></FormInput>
-                    <FormText placeholder="Tell us why you find the review inappropriate"></FormText>
-                    <ButtonDiv>
-                      <ReportButton>Report</ReportButton>
-                      <CancelButton onClick={this.toggleReportModal}>Cancel</CancelButton>
-                    </ButtonDiv>  
+                  <ReportModal>
+                    <ReportHeadlineContainer>
+                      <ReportHeadline>Report this review as inappropriate?</ReportHeadline>
+                    </ReportHeadlineContainer>
+                    <ReportTextContainer>
+                      <ReportText>If you believe this review should be removed from WaitOnMe, please let us know and someone will investigate.</ReportText>
+                    </ReportTextContainer>
+                    <Form>
+                      <FormInput type="hidden" name="reviewId" value="formVal"></FormInput>
+                      <FormText placeholder="Tell us why you find the review inappropriate"></FormText>
+                      <ButtonDiv>
+                        <ReportButton>Report</ReportButton>
+                        <CancelButton onClick={this.toggleReportModal}>Cancel</CancelButton>
+                      </ButtonDiv>
 
-                  </Form>
-                </ReportModal>
-                ) : 
+                    </Form>
+                  </ReportModal>
+                ) :
                   (
                     null
                   )
@@ -447,7 +447,7 @@ const ReportTextContainer = styled.div`
   padding-left: 1rem;
   padding-right: 1rem;
   height: auto;
-`;    
+`;
 
 const ReportText = styled.div`
   font-size: 1rem;
