@@ -45,6 +45,7 @@ class Overview extends React.Component {
       checkBox: false,
       showFilterModal: false,
       filterCheckbox: false,
+      filters: [],
     }
     this.handleFilterClick = this.handleFilterClick.bind(this);
     this.handleSortClick = this.handleSortClick.bind(this);
@@ -52,55 +53,73 @@ class Overview extends React.Component {
     this.handleToggleFilter = this.handleToggleFilter.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
     this.handleFilterCheck = this.handleFilterCheck.bind(this);
+    this.applyFilter = this.applyFilter.bind(this);
   }
 
+  // handle clicks for selecting review ratings 
   handleFilterClick(id) {
-    // console.log('testttt', id)
     const clickedId = Number(id);
-    const allReviews = this.state.reviews
+    const checkBox = this.state.checkBox;
 
-    // console.log(typeof clickedId);
-    // console.log(typeof restReviews[1].individual_rating.Overall)
-    this.setState({
-      idForBar: clickedId,
+    // this.applyFilter({ checkBox, idForBar: clickedId })
+    const filter = { checkBox, idForBar: clickedId };
+    this.applyFilter(filter)
+  }
+
+  // handle clicks for selecting good for group 
+  handleCheck() {
+    const { checkBox, idForBar } = this.state
+    // this.applyFilter({ checkBox: !checkBox, idForBar })
+    const filter = { checkBox: !checkBox, idForBar }
+    this.applyFilter(filter)
+  }
+
+  // handle clicks for unselecting a review rating filter
+  handleFilterCheck() {
+    event.preventDefault();
+    const { checkBox } = this.state
+    const filter = { checkBox: checkBox, idForBar: null }
+    this.applyFilter(filter)
+  }
+
+  //applyFilter({checkBox, idForBar})  // also gives access the values in object on line 89
+  applyFilter(filter) {
+    const checkBox = filter.checkBox
+    const idForBar = filter.idForBar
+    if (!checkBox && !idForBar) {
+      this.setState({
+        filterCheckbox: !this.state.filterCheckbox,
+        showFilterModal: !this.state.showFilterModal,
+        numOfPages: Math.ceil(this.state.reviews.length / 10),
+        filteredArray: this.state.reviews,
+        checkBox
+        //checkBox: checkBox
+      })
+    }
+
+    let filteredRatings = this.state.reviews.filter(review => {
+      let shouldShowThisReview = true;
+      if (idForBar) {
+        shouldShowThisReview = review.individual_rating.Overall === idForBar // 4
+        // true
+      }
+
+      if (checkBox && shouldShowThisReview) {
+        shouldShowThisReview = review.recommendations.good_for_groups === true
+      }
+
+      return shouldShowThisReview;
     });
 
-    let filteredRatings = allReviews.filter(review => {
-      return review.individual_rating.Overall === clickedId
-    })
-
-    let pages = Math.ceil(filteredRatings.length/10);
-
+    let pages = Math.ceil(filteredRatings.length / 10);
     this.setState({
       filteredArray: filteredRatings,
       numOfPages: pages,
-      filterCheckbox: true,
-      showFilterModal: true,
-
+      filterCheckbox: Boolean(idForBar),
+      showFilterModal: Boolean(idForBar),
+      checkBox, //passing same value, can be written shorthand like this only if not changing values
+      idForBar,
     });
-  }
- 
-  handleCheck() {
-    this.setState(state => ({
-      checkBox: !state.checkBox
-    }));
-  }
-
-  showFilterCheckbox() {
-    this.setState(state => ({
-      showFilterModal: !state.showFilterModal,
-
-    }));
-  }
-  
-  handleFilterCheck() {
-    event.preventDefault();
-    let allPages = Math.ceil(this.state.reviews.length/10)
-    this.setState(state => ({
-      filterCheckbox: !state.filterCheckbox,
-      showFilterModal: !state.showFilterModal,
-      numOfPages: allPages,
-    }));
   }
 
 
@@ -108,7 +127,7 @@ class Overview extends React.Component {
     axios.get(`/restaurants/${this.state.id()}`)
       .then((response) => {
         console.log(response.data);
-        let pages= Math.ceil(response.data.reviews.length/10);
+        let pages = Math.ceil(response.data.reviews.length / 10);
 
         this.setState({
           numOfReviews: response.data.reviews.length,
@@ -180,9 +199,6 @@ class Overview extends React.Component {
       });
   }
 
-  // handleNextPageClick() {
-
-  // }
 
   handleToggleFilter() {
     event.preventDefault();
@@ -208,15 +224,18 @@ class Overview extends React.Component {
     let filterDisplay = this.state.filteredArray;
     let sortingBy = this.state.sortingBy
     let filterStatus = this.state.showFilterModal;
-    let all = this.state.reviews
-    let display;
+    let checkBox = this.state.checkBox;
+    let display = this.state.reviews
+    let uncheckFilter = this.state.filterCheckbox
+    console.log('idForBar in render', selectedBar)
 
 
-    if (selectedBar === null || filterStatus === false) {
-      display = all
-    } else {
+    console.log('test bar', selectedBar, filterStatus, checkBox)
+    if (selectedBar !== null || filterStatus !== false || checkBox) {
       display = filterDisplay
     }
+    console.log('display', display);
+
     let sortingFunction;
     if (sortingBy === 'Newest') {
       sortingFunction = sortByDate
@@ -266,7 +285,7 @@ class Overview extends React.Component {
             </OverallRatingsReviewsContainer>
           </ReviewsSummaryContainer>
         </ReviewsSummary>
-        <ReviewFeed reviewList={display} onClick={this.handleSortClick} sortMenuDisplay={this.state.toggleSortmenu} sortingBy={this.state.sortingBy} onChange={this.handleOnChange} toggleFilter={this.handleToggleFilter} numOfPages={this.state.numOfPages} onClickChange={this.handleCheck} checkBox={this.state.checkBox} showFilterModal={this.state.showFilterModal} filterCheckbox={this.state.filterCheckbox} onFilterChange={this.handleFilterCheck} idForBar={this.state.idForBar} />
+        <ReviewFeed reviewList={display} onClick={this.handleSortClick} sortMenuDisplay={this.state.toggleSortmenu} sortingBy={this.state.sortingBy} onChange={this.handleOnChange} toggleFilter={this.handleToggleFilter} numOfPages={this.state.numOfPages} onClickChange={this.handleCheck} checkBox={this.state.checkBox} showFilterModal={this.state.showFilterModal} filterCheckbox={this.state.filterCheckbox} onFilterChange={this.handleFilterCheck} idForBar={this.state.idForBar} handleCheck={this.handleCheck} />
 
       </div>
     );
