@@ -40,7 +40,6 @@ class Overview extends React.Component {
       toggleSortmenu: false,
       sortingBy: 'Newest',
       sortingArray: [],
-      toggleFilter: false,
       numOfPages: null,
       checkBox: false,
       showFilterModal: false,
@@ -50,13 +49,13 @@ class Overview extends React.Component {
     this.handleFilterClick = this.handleFilterClick.bind(this);
     this.handleSortClick = this.handleSortClick.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
-    this.handleToggleFilter = this.handleToggleFilter.bind(this);
+    // this.handleToggleFilter = this.handleToggleFilter.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
     this.handleFilterCheck = this.handleFilterCheck.bind(this);
     this.applyFilter = this.applyFilter.bind(this);
   }
 
-  // handle clicks for selecting review ratings 
+  // handle clicks for selecting review ratings
   handleFilterClick(id) {
     const clickedId = Number(id);
     const checkBox = this.state.checkBox;
@@ -66,7 +65,7 @@ class Overview extends React.Component {
     this.applyFilter(filter)
   }
 
-  // handle clicks for selecting good for group 
+  // handle clicks for selecting good for group
   handleCheck() {
     const { checkBox, idForBar } = this.state
     // this.applyFilter({ checkBox: !checkBox, idForBar })
@@ -135,7 +134,6 @@ class Overview extends React.Component {
           ratingList: response.data.rating,
           reviews: response.data.reviews,
           numOfPages: pages,
-          // paginatedReviews: paginated,
         });
 
         const obj = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 }
@@ -200,13 +198,13 @@ class Overview extends React.Component {
   }
 
 
-  handleToggleFilter() {
-    event.preventDefault();
-    this.setState(state => ({
-      toggleFilter: !state.toggleFilter
+  // handleToggleFilter() {
+  //   event.preventDefault();
+  //   this.setState(state => ({
+  //     toggleFilter: !state.toggleFilter
 
-    }));
-  }
+  //   }));
+  // }
 
   handleSortClick() {
     event.preventDefault();
@@ -226,7 +224,7 @@ class Overview extends React.Component {
     let filterStatus = this.state.showFilterModal;
     let checkBox = this.state.checkBox;
     let display = this.state.reviews
-    let uncheckFilter = this.state.filterCheckbox
+    // let uncheckFilter = this.state.filterCheckbox
     console.log('idForBar in render', selectedBar)
 
 
@@ -285,7 +283,7 @@ class Overview extends React.Component {
             </OverallRatingsReviewsContainer>
           </ReviewsSummaryContainer>
         </ReviewsSummary>
-        <ReviewFeed reviewList={display} onClick={this.handleSortClick} sortMenuDisplay={this.state.toggleSortmenu} sortingBy={this.state.sortingBy} onChange={this.handleOnChange} toggleFilter={this.handleToggleFilter} numOfPages={this.state.numOfPages} onClickChange={this.handleCheck} checkBox={this.state.checkBox} showFilterModal={this.state.showFilterModal} filterCheckbox={this.state.filterCheckbox} onFilterChange={this.handleFilterCheck} idForBar={this.state.idForBar} handleCheck={this.handleCheck} />
+        <ReviewFeed reviewList={display} onClick={this.handleSortClick} sortMenuDisplay={this.state.toggleSortmenu} sortingBy={this.state.sortingBy} onChange={this.handleOnChange} numOfPages={this.state.numOfPages} onClickChange={this.handleCheck} checkBox={this.state.checkBox} showFilterModal={this.state.showFilterModal} filterCheckbox={this.state.filterCheckbox} onFilterChange={this.handleFilterCheck} idForBar={this.state.idForBar} handleCheck={this.handleCheck} />
 
       </div>
     );

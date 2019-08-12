@@ -15,7 +15,7 @@ class ReviewFeed extends React.Component {
       next: 2,
       beginning: 0,
       end: 10,
-      lastPage: null,
+      lastPage: Math.ceil(this.props.reviewList.length / 10),
 
     };
     this.handleNextClick = this.handleNextClick.bind(this);
@@ -141,11 +141,11 @@ class ReviewFeed extends React.Component {
     return (
       <ReviewFeedContainer>
         <SortFilterToolBar>
-          <SortingTools onClick={this.props.onClick} sortDisplay={this.props.sortMenuDisplay} sortingBy={this.props.sortingBy} onChange={this.props.onChange} toggleFilter={this.props.toggleFilter} onClickChange={this.props.onClickChange} checkBox={this.props.checkBox} showFilterModal={this.props.showFilterModal} filterCheckbox={this.props.filterCheckbox} onFilterChange={this.props.onFilterChange} idForBar={this.props.idForBar} />
+          <SortingTools onClick={this.props.onClick} sortDisplay={this.props.sortMenuDisplay} sortingBy={this.props.sortingBy} onChange={this.props.onChange} onClickChange={this.props.onClickChange} checkBox={this.props.checkBox} showFilterModal={this.props.showFilterModal} filterCheckbox={this.props.filterCheckbox} onFilterChange={this.props.onFilterChange} idForBar={this.props.idForBar} handleCheck={this.props.handleCheck} />
 
         </SortFilterToolBar>
         <ReviewList reviews={paginated} />
-        <PagePagination onClick={this.handleNextClick} onPrevClick={this.handlePrevClick} numOfPages={this.props.numOfPages} firstPage={this.state.firstPage} currentPage={this.state.currentPage} previous={this.state.previous} next={this.state.next} beginning={this.state.beginning} end={this.state.end} lastPage={this.state.lastPage} handleClick={this.handleClick} />
+        <PagePagination onClick={this.handleNextClick} onPrevClick={this.handlePrevClick} numOfPages={this.props.numOfPages} firstPage={this.state.firstPage} currentPage={this.state.currentPage} lastPage={this.state.lastPage} handleClick={this.handleClick} />
       </ReviewFeedContainer>
     );
 

@@ -13,8 +13,8 @@ class PagePagination extends React.Component {
 
     let { firstPage, numOfPages, currentPage, previous, next, beginning, end, lastPage } = this.props;
     let pageNavigation;
-    let afterNextPg = next + 1;
-    let beforePrevPg = previous - 1;
+    // let afterNextPg = next + 1;
+    // let beforePrevPg = previous - 1;
 
     return (
       <PageNavContainer>

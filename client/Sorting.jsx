@@ -67,7 +67,7 @@ const SortingTools = (props) => {
           {filterContainer} 
         
         <GoodForGroups>
-          <FilterInput id="goodforgroups" type="checkbox" default={props.checkBox} onChange={props.onClickChange} ></FilterInput>
+          <FilterInput id="goodforgroups" type="checkbox" default={props.checkBox} onChange={props.onClickChange} onClick={props.handleClick} ></FilterInput>
           <FilterLabel htmlFor="goodforgroups">
           {props.checkBox === true ? (
             <i className="fas fa-check-square" style={{color: '#da3743'}}></i>
